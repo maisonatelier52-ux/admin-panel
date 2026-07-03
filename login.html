@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Bailey and Co. – Admin Login</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="card">
+
+    <!-- Left: brand -->
+    <div class="brand-panel">
+      <div class="brand">
+        <!-- Tri-tone flame logo -->
+        <svg class="flame-icon" viewBox="0 0 44 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Orange flame (right) -->
+          <path d="M26 2 C26 2 38 16 36 30 C34 42 28 50 22 54 C26 44 28 34 22 24 C24 30 20 38 18 44 C14 34 16 18 26 2Z" fill="#e07824"/>
+          <!-- Gold inner flame -->
+          <path d="M22 10 C22 10 30 20 28 32 C27 40 24 48 20 54 C22 44 22 36 18 28 C19 34 16 40 14 46 C12 36 14 22 22 10Z" fill="#f5b731"/>
+          <!-- Teal/blue flame (left) -->
+          <path d="M18 8 C18 8 8 22 10 36 C12 46 16 52 20 54 C16 44 14 34 18 24 C16 30 12 36 14 42 C10 32 10 16 18 8Z" fill="#2ba8b4"/>
+        </svg>
+        <span class="brand-name">Latam Chronicle</span>
+      </div>
+    </div>
+
+    <!-- Right: login form -->
+    <div class="login-panel">
+      <h1>Welcome</h1>
+      <p class="subtitle">Please login as Admin </p>
+
+      <div class="form">
+        <input type="text" placeholder="Username" autocomplete="username" />
+        <input type="password" placeholder="Password" autocomplete="current-password" />
+        <button class="btn-login" onclick="handleLogin()">Login</button>
+        <p class="error-msg" id="error-msg"></p>
+        <a href="#" class="forgot">Forgotten Your Password?</a>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    function handleLogin() {
+      const username = document.querySelector('input[placeholder="Username"]').value.trim();
+      const password = document.querySelector('input[placeholder="Password"]').value;
+      const errorEl = document.getElementById('error-msg');
+
+      if (username === 'programmers union' && password === 'K4RM4') {
+        errorEl.style.color = '#4caf8a';
+        errorEl.textContent = 'Login successful! Redirecting…';
+        setTimeout(() => {
+          alert('Welcome to the Admin Dashboard!');
+          // Replace the line below with your actual dashboard URL:
+          // window.location.href = '/dashboard';
+        }, 1000);
+      } else {
+        errorEl.style.color = '#ff6b6b';
+        errorEl.textContent = 'Invalid username or password.';
+
+        // Shake the form inputs for visual feedback
+        const inputs = document.querySelectorAll('.form input');
+        inputs.forEach(input => {
+          input.style.animation = 'none';
+          input.offsetHeight; // trigger reflow
+          input.style.animation = 'shake 0.4s ease';
+        });
+      }
+    }
+
+    // Allow pressing Enter to submit
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') handleLogin();
+    });
+  </script>
+
+  <style>
+    @keyframes shake {
+      0%,100% { transform: translateX(0); }
+      20%      { transform: translateX(-6px); }
+      40%      { transform: translateX(6px); }
+      60%      { transform: translateX(-4px); }
+      80%      { transform: translateX(4px); }
+    }
+  </style>
+</body>
+</html>

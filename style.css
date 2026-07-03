@@ -1,0 +1,156 @@
+ *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      background-color: #1a1f3c;;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Segoe UI', Arial, sans-serif;
+    }
+
+    .card {
+      display: flex;
+      width: 820px;
+      min-height: 420px;
+      border-radius: 6px;
+      overflow: hidden;
+      background-color: #1a1f3c;;
+    }
+
+    /* ── Left panel ── */
+    .brand-panel {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 48px 40px;
+      border-right: 1px solid rgba(255,255,255,0.12);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    /* Flame SVG icon */
+    .flame-icon {
+      width: 44px;
+      height: 56px;
+      flex-shrink: 0;
+    }
+
+    .brand-name {
+      color: #ffffff;
+      font-size: 1.55rem;
+      font-weight: 400;
+      letter-spacing: 0.01em;
+      white-space: nowrap;
+    }
+
+    /* ── Right panel ── */
+    .login-panel {
+      flex: 1.1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 52px 48px;
+    }
+
+    .login-panel h1 {
+      color: #ffffff;
+      font-size: 1.75rem;
+      font-weight: 400;
+      margin-bottom: 10px;
+      letter-spacing: 0.02em;
+    }
+
+    .login-panel .subtitle {
+      color: #a0bfc2;
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin-bottom: 32px;
+    }
+
+    .form {
+      width: 100%;
+      max-width: 290px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .form input {
+      width: 100%;
+      padding: 11px 14px;
+      background: #ffffff;
+      border: none;
+      border-radius: 3px;
+      font-size: 0.82rem;
+      color: #333;
+      outline: none;
+      letter-spacing: 0.04em;
+    }
+
+    .form input::placeholder {
+      color: #aaa;
+      text-transform: uppercase;
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+    }
+
+    .form input:focus {
+      box-shadow: 0 0 0 2px hsl(243, 75%, 59%);
+    }
+
+    .btn-login {
+      margin-top: 14px;
+      width: 100%;
+      padding: 12px;
+      background: hsl(243, 75%, 59%);
+      color: #ffffff;
+      border: none;
+      border-radius: 3px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .btn-login:hover { background:#4f46e5; }
+    .btn-login:active { background: #b05c12; }
+
+    .forgot {
+      margin-top: 14px;
+      color: #a0bfc2;
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      text-align: center;
+      display: block;
+      transition: color 0.2s;
+    }
+
+    .forgot:hover { color: #ffffff; }
+
+    .error-msg {
+      color: #ff6b6b;
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      text-align: center;
+      min-height: 18px;
+      margin-top: -4px;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 640px) {
+      .card { flex-direction: column; width: 94vw; }
+      .brand-panel { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.12); padding: 32px; }
+      .login-panel { padding: 36px 28px; }
+    }
