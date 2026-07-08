@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Latam Chronicle – Homepage Builder</title>
+<link rel="stylesheet" href="style.css"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
+</head>
+<body data-page="homepage">
+<div id="sidebar-root"></div>
+<main class="main">
+  <div id="topbar-root"></div>
+  <div class="content">
+    <div class="page active">
+      <div class="page-header">
+        <div><h1>Homepage Builder</h1><p>Design and arrange your website's homepage. Changes saved here will reflect live.</p></div>
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-ghost" onclick="resetHomepageBuilder()">
+            <i class="fa-solid fa-rotate-left"></i>
+            Reset to Default
+          </button>
+          <button class="btn btn-primary" onclick="toast('Homepage saved!')">
+            <i class="fa-solid fa-floppy-disk"></i>
+            Save Homepage
+          </button>
+        </div>
+      </div>
+
+      <div class="hb-grid">
+        <!-- LEFT: Tabs + Content -->
+        <div class="hb-left scard">
+          <div class="hb-tabs" id="hb-tabs">
+            <button class="hb-tab active" data-tab="hero" onclick="hbShowTab('hero',this)">
+              <i class="fa-solid fa-image"></i>Hero
+            </button>
+            <button class="hb-tab" data-tab="featured" onclick="hbShowTab('featured',this)">
+              <i class="fa-solid fa-star"></i>Featured Articles
+            </button>
+            <button class="hb-tab" data-tab="sections" onclick="hbShowTab('sections',this)">
+              <i class="fa-solid fa-bars"></i>Sections
+            </button>
+            <button class="hb-tab" data-tab="sidebar" onclick="hbShowTab('sidebar',this)">
+              <i class="fa-solid fa-table-columns"></i>Sidebar
+            </button>
+            <button class="hb-tab" data-tab="ads" onclick="hbShowTab('ads',this)">
+              <i class="fa-solid fa-dollar-sign"></i>Ads
+            </button>
+            <button class="hb-tab" data-tab="font" onclick="hbShowTab('font',this)">
+              <i class="fa-solid fa-font"></i>Font
+            </button>
+          </div>
+
+          <!-- HERO TAB -->
+          <div class="hb-tab-panel active" id="hb-panel-hero">
+            <div class="hb-subtitle">Hero Section</div>
+            <div class="hb-desc">The top banner area showing your top stories.</div>
+
+            <div class="hero-style-grid" id="hero-style-grid"></div>
+
+            <div class="hb-field-block">
+              <div class="hb-field-top">
+                <span>Number of headlines</span>
+                <span class="hb-field-val" id="headline-count-val">3</span>
+              </div>
+              <input type="range" min="1" max="6" step="1" class="hb-slider" id="headline-slider"
+                     value="3" oninput="setHeadlineCount(this.value)"/>
+            </div>
+
+            <div style="margin-top:22px">
+              <div class="hb-toggle-row">
+                <label>Autoplay (carousel styles)</label>
+                <label class="toggle-switch">
+                  <input type="checkbox" id="hp-autoplay" checked onchange="toggleHpSetting('autoplay',this.checked)"/>
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+              <div class="hb-toggle-row">
+                <label>Show category badge</label>
+                <label class="toggle-switch">
+                  <input type="checkbox" id="hp-cat-badge" checked onchange="toggleHpSetting('categoryBadge',this.checked)"/>
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+              <div class="hb-toggle-row">
+                <label>Show excerpt text</label>
+                <label class="toggle-switch">
+                  <input type="checkbox" id="hp-excerpt" onchange="toggleHpSetting('excerptText',this.checked)"/>
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- FEATURED ARTICLES TAB -->
+          <div class="hb-tab-panel" id="hb-panel-featured">
+            <div class="hb-subtitle">Featured Articles</div>
+            <div class="hb-desc">Configure the row of featured stories shown under the hero.</div>
+            <div class="form-grid" style="padding:0">
+              <div class="fg"><label>Number of Articles</label>
+                <select><option>3</option><option>4</option><option>5</option><option>6</option></select>
+              </div>
+              <div class="fg"><label>Layout Style</label>
+                <select><option>Grid</option><option>List</option><option>Carousel</option></select>
+              </div>
+              <div class="fg"><label>Source</label>
+                <select><option>Latest</option><option>Most Popular</option><option>Editor's Picks</option></select>
+              </div>
+            </div>
+          </div>
+
+          <!-- SECTIONS TAB (full manage list) -->
+          <div class="hb-tab-panel" id="hb-panel-sections">
+            <div class="hb-subtitle">Homepage Sections</div>
+            <div class="hb-desc">Enable, reorder, and configure the content blocks on your homepage.</div>
+            <div class="hp-section-list" id="hp-sections-list" style="padding:0;margin-bottom:14px"></div>
+            <button class="btn btn-primary btn-sm" onclick="openModal('section-modal')">＋ Add Section</button>
+          </div>
+
+          <!-- SIDEBAR TAB -->
+          <div class="hb-tab-panel" id="hb-panel-sidebar">
+            <div class="hb-subtitle">Sidebar</div>
+            <div class="hb-desc">Choose what appears in the homepage sidebar.</div>
+            <div class="hb-toggle-row"><label>Show Sidebar</label>
+              <label class="toggle-switch"><input type="checkbox" checked/><span class="toggle-slider"></span></label>
+            </div>
+            <div class="hb-toggle-row"><label>Trending Widget</label>
+              <label class="toggle-switch"><input type="checkbox" checked/><span class="toggle-slider"></span></label>
+            </div>
+            <div class="hb-toggle-row"><label>Newsletter Signup</label>
+              <label class="toggle-switch"><input type="checkbox" checked/><span class="toggle-slider"></span></label>
+            </div>
+            <div class="hb-toggle-row"><label>Social Follow Widget</label>
+              <label class="toggle-switch"><input type="checkbox"/><span class="toggle-slider"></span></label>
+            </div>
+          </div>
+
+          <!-- ADS TAB -->
+          <div class="hb-tab-panel" id="hb-panel-ads">
+            <div class="hb-subtitle">Homepage Ad Placements</div>
+            <div class="hb-desc">Turn ad slots on the homepage on or off.</div>
+            <div class="hb-toggle-row"><label>Header Leaderboard</label>
+              <label class="toggle-switch"><input type="checkbox" checked/><span class="toggle-slider"></span></label>
+            </div>
+            <div class="hb-toggle-row"><label>Mid-Page Banner</label>
+              <label class="toggle-switch"><input type="checkbox" checked/><span class="toggle-slider"></span></label>
+            </div>
+            <div class="hb-toggle-row"><label>Sidebar Rectangle</label>
+              <label class="toggle-switch"><input type="checkbox" checked/><span class="toggle-slider"></span></label>
+            </div>
+          </div>
+
+          <!-- FONT TAB -->
+          <div class="hb-tab-panel" id="hb-panel-font">
+            <div class="hb-subtitle">Typography</div>
+            <div class="hb-desc">Choose the fonts used across your homepage.</div>
+            <div class="form-grid" style="padding:0">
+              <div class="fg"><label>Headline Font</label>
+                <select><option>Merriweather</option><option>Playfair Display</option><option>Segoe UI</option></select>
+              </div>
+              <div class="fg"><label>Body Font</label>
+                <select><option>Segoe UI</option><option>Georgia</option><option>Inter</option></select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT: Sections quick toggle + Live preview -->
+        <div class="hb-right" style="display:flex;flex-direction:column;gap:16px">
+          <div class="scard">
+            <div class="hb-side-section" style="display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border)">
+              <span class="hb-panel-title">Sections</span>
+              <span class="hb-edit-link" onclick="hbShowTab('sections',document.querySelector('.hb-tab[data-tab=sections]'))">Edit ›</span>
+            </div>
+            <div class="side-sections-list" id="side-sections-list"></div>
+          </div>
+
+          <div class="scard">
+            <div class="hb-side-section" style="border-bottom:1px solid var(--border)">
+              <span class="hb-panel-title">Preview</span>
+            </div>
+            <div class="hb-side-section">
+              <div class="hp-preview-frame" id="hp-preview-frame"></div>
+              <div class="hp-preview-note">Reflects your Hero, Featured &amp; Font selections.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<div class="modal-overlay" id="section-modal">
+  <div class="modal">
+    <div class="modal-head"><h3>Add Homepage Section</h3><button class="modal-close" onclick="closeModal('section-modal')">✕</button></div>
+    <div class="form-grid">
+      <div class="fg full"><label>Section Name</label><input type="text" id="sec-name-input" placeholder="e.g. Featured News"/></div>
+      <div class="fg"><label>Section Type</label><select id="sec-type-input"><option>Featured</option><option>Latest</option><option>Category</option><option>Banner</option><option>Newsletter</option></select></div>
+      <div class="fg"><label>Linked Category</label><select id="sec-cat-input"></select></div>
+    </div>
+    <div class="form-foot">
+      <button class="btn btn-primary" onclick="addSection()">Add Section</button>
+      <button class="btn btn-ghost" onclick="closeModal('section-modal')">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+<script src="script.js"></script>
+</body>
+</html>

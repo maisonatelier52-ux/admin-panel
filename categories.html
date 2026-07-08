@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Latam Chronicle – Categories</title>
+<link rel="stylesheet" href="style.css"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
+</head>
+<body data-page="categories">
+<div id="sidebar-root"></div>
+<main class="main">
+  <div id="topbar-root"></div>
+  <div class="content">
+    <div class="page active">
+      <div class="scard">
+        <div class="scard-head"><h2>Categories</h2><button class="btn btn-primary btn-sm" onclick="openModal('cat-modal')">＋ New Category</button></div>
+        <table><thead><tr><th>Name</th><th>Slug</th><th>Articles</th><th>Actions</th></tr></thead><tbody id="cat-tbody"></tbody></table>
+      </div>
+    </div>
+  </div>
+</main>
+
+<div class="modal-overlay" id="cat-modal">
+  <div class="modal">
+    <div class="modal-head"><h3>New Category</h3><button class="modal-close" onclick="closeModal('cat-modal')">✕</button></div>
+    <div class="form-grid">
+      <div class="fg full"><label>Category Name</label><input type="text" id="cat-name-input" placeholder="e.g. Technology"/></div>
+    </div>
+    <div class="form-foot">
+      <button class="btn btn-primary" onclick="addCategory()">Save</button>
+      <button class="btn btn-ghost" onclick="closeModal('cat-modal')">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+<script src="script.js"></script>
+</body>
+</html>

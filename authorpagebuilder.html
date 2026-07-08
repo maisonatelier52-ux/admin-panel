@@ -1,0 +1,1390 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>News Admin — Author Page Builder</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    :root {
+      --page-bg: #f3f4f8;
+      --card-bg: #ffffff;
+      --border: #e6e7ee;
+      --text-dark: #1a1a2e;
+      --text-muted: #8a8ba3;
+      --purple: #4f46e5;
+      --purple-dark: #4338ca;
+      --purple-tint: #f2f0fd;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: var(--page-bg);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      color: var(--text-dark);
+      display: block;
+    }
+
+    /* Page head */
+    .page-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+
+      flex-wrap: wrap;
+      gap: 14px;
+      padding: 20px 22px 0px;
+    }
+
+    .page-head h1 {
+      font-size: 1.1rem;
+      font-weight: 800;
+    }
+
+    .page-head p {
+      color: var(--text-muted);
+      font-size: 13.5px;
+    }
+
+    .head-actions {
+      display: flex;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+
+    .btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-radius: 8px;
+      padding: 5px 16px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      font-family: inherit;
+      transition: background .15s ease, transform .05s ease;
+    }
+
+    .btn:active {
+      transform: translateY(1px);
+    }
+
+    .btn-outline {
+      background: #fff;
+      border: 1px solid var(--border);
+      color: var(--text-dark);
+    }
+
+    .btn-outline:hover {
+      background: #fafafc;
+    }
+
+    .btn-primary {
+      background: var(--purple);
+      color: #fff;
+    }
+
+    .btn-primary:hover {
+      background: var(--purple-dark);
+    }
+
+    .content {
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 20px;
+      align-items: start;
+    }
+
+    .builder-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+    }
+
+    .tabs {
+      display: flex;
+      border-bottom: 1px solid var(--border);
+      padding: 0 24px;
+      gap: 26px;
+      overflow-x: auto;
+    }
+
+    .tab {
+      padding: 16px 2px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-muted);
+      cursor: pointer;
+      white-space: nowrap;
+      border-bottom: 2px solid transparent;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      user-select: none;
+    }
+
+    .tab i {
+      font-size: 13px;
+      width: 14px;
+      text-align: center;
+    }
+
+    .tab:hover {
+      color: var(--text-dark);
+    }
+
+    .tab.active {
+      color: var(--purple);
+      border-bottom-color: var(--purple);
+    }
+
+    .tab-panel {
+      padding: 26px 24px;
+      display: none;
+    }
+
+    .tab-panel.active {
+      display: block;
+    }
+
+    .tab-panel h3 {
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .tab-panel>p.hint {
+      color: var(--text-muted);
+      font-size: 13.5px;
+      margin-bottom: 20px;
+    }
+
+    /* Layout grid */
+    .layout-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .layout-option {
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 14px 16px;
+      cursor: pointer;
+      transition: border-color .15s ease, box-shadow .15s ease;
+    }
+
+    .layout-option:hover {
+      border-color: #c9c9f5;
+    }
+
+    .layout-option.selected {
+      border-color: var(--purple);
+      box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+    }
+
+    .preview-box {
+      height: 78px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: #fafafa;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 12px;
+      overflow: hidden;
+    }
+
+    .avatar-dot {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #aeb0c9;
+      flex-shrink: 0;
+    }
+
+    .bar {
+      border-radius: 3px;
+      height: 6px;
+      background: #c7c8d6;
+    }
+
+    .bar.thin {
+      height: 4px;
+      background: #dcdde8;
+    }
+
+    .lp-row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .lp-card {
+      background: #d7d8e4;
+      border-radius: 4px;
+      flex: 1;
+      height: 100%;
+    }
+
+    .lp-cardrow {
+      display: flex;
+      gap: 6px;
+      flex: 1;
+    }
+
+    .cover-block {
+      height: 22px;
+      background: #14142b;
+      border-radius: 4px 4px 0 0;
+      margin: -10px -10px 6px;
+    }
+
+    .sidebar-block {
+      width: 26%;
+      background: #e3e4ef;
+      border-radius: 5px;
+      align-self: stretch;
+    }
+
+    .radio-label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .radio-dot {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      border: 2px solid #c9c9d6;
+      flex-shrink: 0;
+      position: relative;
+    }
+
+    .layout-option.selected .radio-dot {
+      border-color: var(--purple);
+    }
+
+    .layout-option.selected .radio-dot::after {
+      content: "";
+      position: absolute;
+      inset: 3px;
+      border-radius: 50%;
+      background: var(--purple);
+    }
+
+    .field-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .field-row:last-child {
+      margin-bottom: 0;
+    }
+
+    .field-row label {
+      font-size: 13px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .field-row label i {
+      color: var(--text-muted);
+      width: 14px;
+      text-align: center;
+    }
+
+    .field-block {
+      margin-bottom: 18px;
+    }
+
+    .field-block:last-child {
+      margin-bottom: 0;
+    }
+
+    .field-block>label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-dark);
+      margin-bottom: 8px;
+    }
+
+    .text-input {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 12px;
+      font-size: 14px;
+      font-family: inherit;
+      outline: none;
+      color: var(--text-dark);
+    }
+
+    .text-input:focus {
+      border-color: var(--purple);
+    }
+
+    textarea.text-input {
+      resize: vertical;
+      min-height: 60px;
+      font-family: inherit;
+    }
+
+    .select-input {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 12px;
+      font-size: 14px;
+      font-family: inherit;
+      outline: none;
+      color: var(--text-dark);
+      background: #fff;
+      max-width: 280px;
+    }
+
+    .select-input:focus {
+      border-color: var(--purple);
+    }
+
+    .toggle {
+      width: 40px;
+      height: 20px;
+      background: #d8d9e4;
+      border-radius: 999px;
+      position: relative;
+      cursor: pointer;
+      transition: background .2s ease;
+      flex-shrink: 0;
+    }
+
+    .toggle.on {
+      background: var(--purple);
+    }
+
+    .toggle .knob {
+      position: absolute;
+      top: 1px;
+      left: 3px;
+      width: 18px;
+      height: 18px;
+      background: #fff;
+      border-radius: 50%;
+      transition: left .2s ease;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    }
+
+    .toggle.on .knob {
+      left: 21px;
+    }
+
+    .size-group {
+      display: flex;
+      gap: 8px;
+      max-width: 360px;
+    }
+
+    .size-btn {
+      flex: 1;
+      padding: 10px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: #fff;
+      cursor: pointer;
+      font-size: 13.5px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-align: center;
+    }
+
+    .size-btn.active {
+      border-color: var(--purple);
+      color: var(--purple);
+      background: var(--purple-tint);
+    }
+
+    /* Social links editor */
+    .social-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 9px 12px;
+      background: #fff;
+    }
+
+    .social-row select {
+      border: none;
+      outline: none;
+      font-size: 13.5px;
+      font-family: inherit;
+      color: var(--text-dark);
+      background: #fafafc;
+      border-radius: 6px;
+      padding: 5px 6px;
+      width: 110px;
+      flex-shrink: 0;
+    }
+
+    .social-row input {
+      border: none;
+      outline: none;
+      flex: 1;
+      font-size: 13.5px;
+      font-family: inherit;
+      color: var(--text-dark);
+    }
+
+    .social-row .del-btn {
+      background: none;
+      border: none;
+      color: #c7c8d6;
+      cursor: pointer;
+      font-size: 13px;
+    }
+
+    .social-row .del-btn:hover {
+      color: #e0674f;
+    }
+
+    .add-link-btn {
+      background: none;
+      border: 1px dashed var(--border);
+      border-radius: 7px;
+      color: var(--purple);
+      font-size: 12.5px;
+      font-weight: 600;
+      padding: 7px 12px;
+      cursor: pointer;
+      margin-top: 6px;
+    }
+
+    .add-link-btn:hover {
+      background: var(--purple-tint);
+    }
+
+    /* Stats editor */
+    .stat-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 9px 12px;
+      background: #fff;
+      margin-bottom: 10px;
+    }
+
+    .stat-row:last-child {
+      margin-bottom: 0;
+    }
+
+    .stat-row i.grip {
+      color: #c7c8d6;
+      font-size: 13px;
+      cursor: grab;
+    }
+
+    .stat-row span {
+      flex: 1;
+      font-size: 13.5px;
+      font-weight: 500;
+    }
+
+    /* Right column */
+    .side-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 24px;
+    }
+
+    .side-card+.side-card {
+      margin-top: 20px;
+    }
+
+    .side-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .side-head h4 {
+      font-size: 13.5px;
+      font-weight: 700;
+    }
+
+    .side-head a {
+      color: var(--purple);
+      font-size: 13px;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 3px;
+    }
+
+    .side-head a:hover {
+      text-decoration: underline;
+    }
+
+    .social-chip-row {
+      display: flex;
+      gap: 8px;
+    }
+
+    .social-chip {
+      width: 30px;
+      height: 30px;
+      border-radius: 8px;
+      background: var(--purple-tint);
+      color: var(--purple);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+    }
+
+    /* Preview */
+    .preview-frame {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .preview-cover {
+      height: 0;
+      background: #14142b;
+      transition: height .2s ease;
+    }
+
+    .preview-body {
+      padding: 20px 18px 16px;
+      text-align: center;
+    }
+
+    .preview-body.align-left {
+      text-align: left;
+    }
+
+    .preview-toprow {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .preview-body.align-left .preview-toprow {
+      margin-bottom: 8px;
+    }
+
+    .preview-avatar {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: #d8d9e4;
+      margin: 0 auto 10px;
+    }
+
+    .preview-body.align-left .preview-avatar {
+      margin: 0;
+      flex-shrink: 0;
+    }
+
+    .preview-name {
+      font-size: 15px;
+      font-weight: 800;
+    }
+
+    .preview-name .verify {
+      color: var(--purple);
+      font-size: 12px;
+      margin-left: 3px;
+    }
+
+    .preview-title {
+      font-size: 11.5px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .preview-bio {
+      font-size: 11.5px;
+      color: #5a5b73;
+      margin-top: 8px;
+      line-height: 1.5;
+      max-width: 340px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .preview-body.align-left .preview-bio {
+      margin-left: 0;
+      margin-right: 0;
+      max-width: none;
+    }
+
+    .preview-stats {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 10px;
+    }
+
+    .preview-cardswrap {
+      display: flex;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .preview-cardswrap.sidebar-mode {
+      align-items: flex-start;
+    }
+
+    .preview-sidebar-col {
+      width: 28%;
+      flex-shrink: 0;
+    }
+
+    .preview-sidebar-col .sblock {
+      background: #f3f4f8;
+      border-radius: 6px;
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+
+    .preview-sidebar-col .sblock .wl {
+      height: 5px;
+      background: #dcdde8;
+      border-radius: 3px;
+      margin-bottom: 5px;
+    }
+
+    .preview-main-col {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .preview-main-col.grid-mode {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .article-card {
+      text-align: left;
+    }
+
+    .article-card .thumb {
+      background: #e3e4ef;
+      border-radius: 6px;
+      height: 40px;
+      margin-bottom: 5px;
+    }
+
+    .article-card .cap {
+      font-size: 10.5px;
+      font-weight: 700;
+    }
+
+    .article-card.list-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .article-card.list-item .thumb {
+      width: 36px;
+      height: 26px;
+      margin-bottom: 0;
+      flex-shrink: 0;
+    }
+
+    .article-card.card-style {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px;
+    }
+
+    .preview-note {
+      font-size: 11.5px;
+      color: var(--text-muted);
+      margin-top: 14px;
+      text-align: center;
+    }
+
+    @media (max-width: 980px) {
+      .content {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .layout-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<main data-page="homepage">
+  <div id="sidebar-root"></div>
+  <main class="main">
+    <div id="topbar-root"></div>
+    <div class="page-head">
+      <div>
+        <h1>Author Page Builder</h1>
+        <p>Design the public author profile page (e.g. /author/sarah-smith). Applies to every author.</p>
+      </div>
+      <div class="head-actions">
+        <button class="btn btn-outline" id="resetBtn"><i class="fa-solid fa-rotate-left"></i>Reset to Default</button>
+        <button class="btn btn-primary" id="saveBtn"><i class="fa-solid fa-floppy-disk"></i>Save Author Page</button>
+      </div>
+    </div>
+
+    <div class="content">
+      <!-- Builder card -->
+      <div class="builder-card">
+        <div class="tabs" id="tabs">
+          <div class="tab active" data-tab="layout"><i class="fa-solid fa-table-cells-large"></i>Layout</div>
+          <div class="tab" data-tab="bio"><i class="fa-regular fa-circle-user"></i>Author Bio</div>
+          <div class="tab" data-tab="listing"><i class="fa-solid fa-table-cells"></i>Article Listing</div>
+          <div class="tab" data-tab="social"><i class="fa-solid fa-at"></i>Social Links</div>
+          <div class="tab" data-tab="stats"><i class="fa-solid fa-hashtag"></i>Stats</div>
+          <div class="tab" data-tab="font"><i class="fa-solid fa-font"></i>Font</div>
+        </div>
+
+        <!-- LAYOUT -->
+        <div class="tab-panel active" data-panel="layout">
+          <h3>Author Page Layout</h3>
+          <p class="hint">Choose how the bio and article list are arranged.</p>
+          <div class="layout-grid" id="layoutGrid">
+
+            <div class="layout-option selected" data-layout="Centered Bio + Grid">
+              <div class="preview-box" style="align-items:center;">
+                <div class="avatar-dot"></div>
+                <div class="bar" style="width:60%"></div>
+                <div class="bar thin" style="width:80%"></div>
+              </div>
+              <label class="radio-label"><span class="radio-dot"></span>Centered Bio + Grid</label>
+            </div>
+
+            <div class="layout-option" data-layout="Sidebar Bio + List">
+              <div class="preview-box" style="flex-direction:row;align-items:center;">
+                <div class="avatar-dot"></div>
+                <div class="pb-col" style="display:flex;flex-direction:column;gap:6px;flex:1;">
+                  <div class="bar" style="width:90%"></div>
+                  <div class="bar thin" style="width:70%"></div>
+                  <div class="bar thin" style="width:80%"></div>
+                </div>
+              </div>
+              <label class="radio-label"><span class="radio-dot"></span>Sidebar Bio + List</label>
+            </div>
+
+            <div class="layout-option" data-layout="Cover Banner + Bio">
+              <div class="preview-box" style="align-items:center;padding:0;">
+                <div class="cover-block" style="width:100%;height:28px;margin:0;border-radius:0;"></div>
+                <div class="avatar-dot" style="margin-top:-14px;border:2px solid #fff;"></div>
+                <div class="bar thin" style="width:60%"></div>
+              </div>
+              <label class="radio-label"><span class="radio-dot"></span>Cover Banner + Bio</label>
+            </div>
+
+            <div class="layout-option" data-layout="Minimal">
+              <div class="preview-box" style="flex-direction:row;align-items:center;">
+                <div class="avatar-dot"></div>
+                <div class="bar" style="flex:1"></div>
+              </div>
+              <label class="radio-label"><span class="radio-dot"></span>Minimal</label>
+            </div>
+
+            <div class="layout-option" data-layout="Sidebar Bio + Grid">
+              <div class="preview-box" style="flex-direction:row;">
+                <div class="pb-col" style="display:flex;flex-direction:column;gap:6px;align-items:center;">
+                  <div class="avatar-dot"></div>
+                  <div class="bar thin" style="width:36px"></div>
+                </div>
+                <div class="lp-cardrow">
+                  <div class="lp-card"></div>
+                  <div class="lp-card"></div>
+                  <div class="lp-card"></div>
+                </div>
+              </div>
+              <label class="radio-label"><span class="radio-dot"></span>Sidebar Bio + Grid</label>
+            </div>
+
+            <div class="layout-option" data-layout="Card Style">
+              <div class="preview-box" style="align-items:center;border:1px solid var(--border);">
+                <div class="avatar-dot"></div>
+                <div class="bar thin" style="width:70%"></div>
+              </div>
+              <label class="radio-label"><span class="radio-dot"></span>Card Style</label>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- AUTHOR BIO -->
+        <div class="tab-panel" data-panel="bio">
+          <h3>Author Bio</h3>
+          <p class="hint">Control what appears in the author's profile section.</p>
+          <div class="field-row"><label><i class="fa-solid fa-align-left"></i>Bio Text</label>
+            <div class="toggle on" id="bioTextTabToggle">
+              <div class="knob"></div>
+            </div>
+          </div>
+          <div class="field-row"><label><i class="fa-solid fa-badge-check"></i>Verified Badge</label>
+            <div class="toggle on" id="bioVerifiedTabToggle">
+              <div class="knob"></div>
+            </div>
+          </div>
+          <div class="field-row"><label><i class="fa-solid fa-briefcase"></i>Job Title</label>
+            <div class="toggle on" id="bioJobTabToggle">
+              <div class="knob"></div>
+            </div>
+          </div>
+          <div class="field-block" style="margin-top:18px;">
+            <label>Example name</label>
+            <input type="text" class="text-input" id="bioName" value="Sarah Smith">
+          </div>
+          <div class="field-block">
+            <label>Example job title</label>
+            <input type="text" class="text-input" id="bioJob" value="Senior Technology Editor">
+          </div>
+          <div class="field-block">
+            <label>Example bio text</label>
+            <textarea class="text-input"
+              id="bioText">Covering AI, gadgets, and the future of computing for over 8 years.</textarea>
+          </div>
+        </div>
+
+        <!-- ARTICLE LISTING -->
+        <div class="tab-panel" data-panel="listing">
+          <h3>Article Listing</h3>
+          <p class="hint">Control how the author's articles are displayed on the page.</p>
+          <div class="field-block">
+            <label>Articles per row</label>
+            <div class="size-group">
+              <div class="size-btn" data-perrow="2">2</div>
+              <div class="size-btn active" data-perrow="3">3</div>
+              <div class="size-btn" data-perrow="4">4</div>
+            </div>
+          </div>
+          <div class="field-row"><label><i class="fa-solid fa-align-justify"></i>Show excerpt</label>
+            <div class="toggle" id="listingExcerptToggle">
+              <div class="knob"></div>
+            </div>
+          </div>
+          <div class="field-row"><label><i class="fa-solid fa-tag"></i>Show category tag</label>
+            <div class="toggle on" id="listingTagToggle">
+              <div class="knob"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SOCIAL LINKS -->
+        <div class="tab-panel" data-panel="social">
+          <h3>Social Links</h3>
+          <p class="hint">Add the platforms shown on the author's profile.</p>
+          <div id="socialEditor"></div>
+          <button class="add-link-btn" id="addSocialBtn"><i class="fa-solid fa-plus"></i> Add social link</button>
+        </div>
+
+        <!-- STATS -->
+        <div class="tab-panel" data-panel="stats">
+          <h3>Author Stats</h3>
+          <p class="hint">Choose which stats appear below the author's bio.</p>
+          <div id="statsEditor"></div>
+        </div>
+
+        <!-- FONT -->
+        <div class="tab-panel" data-panel="font">
+          <h3>Author Page Font</h3>
+          <p class="hint">Set the typeface used for the author name and headlines.</p>
+          <div
+            style="border:1px solid var(--border);border-radius:10px;padding:22px;text-align:center;margin-bottom:18px;background:#fafafa;">
+            <div id="fontSampleAa" style="font-size:34px;font-weight:800;margin-bottom:6px;">Aa</div>
+            <div id="fontSampleName" style="font-size:13px;color:var(--text-muted);">System Default</div>
+          </div>
+          <div class="field-block">
+            <label>Typeface</label>
+            <select class="select-input" id="fontFamilySelect">
+              <option value="-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif"
+                data-label="System Default" selected>System Default</option>
+              <option value="'Playfair Display',Georgia,serif" data-label="Playfair Display (Serif)">Playfair Display
+                (Serif)</option>
+              <option value="Georgia,serif" data-label="Georgia (Serif)">Georgia (Serif)</option>
+              <option value="Merriweather,Georgia,serif" data-label="Merriweather (Serif)">Merriweather (Serif)</option>
+            </select>
+          </div>
+          <div class="field-block">
+            <label>Name size</label>
+            <div class="size-group">
+              <div class="size-btn" data-namesize="small">Small</div>
+              <div class="size-btn active" data-namesize="medium">Medium</div>
+              <div class="size-btn" data-namesize="large">Large</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right sidebar -->
+      <div>
+        <div class="side-card">
+          <div class="side-head">
+            <h4>Author Bio</h4><a data-jump="bio">Edit <i class="fa-solid fa-chevron-right"></i></a>
+          </div>
+          <div class="field-row"><label>Bio Text</label>
+            <div class="toggle on" id="bioTextSideToggle">
+              <div class="knob"></div>
+            </div>
+          </div>
+          <div class="field-row"><label>Verified Badge</label>
+            <div class="toggle on" id="bioVerifiedSideToggle">
+              <div class="knob"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="side-card">
+          <div class="side-head">
+            <h4>Social Links</h4><a data-jump="social">Edit <i class="fa-solid fa-chevron-right"></i></a>
+          </div>
+          <div class="social-chip-row" id="socialChipRow"></div>
+        </div>
+
+        <div class="side-card">
+          <div class="side-head">
+            <h4>Preview</h4>
+          </div>
+          <div class="preview-frame">
+            <div class="preview-cover" id="previewCover"></div>
+            <div class="preview-body" id="previewBody">
+              <div class="preview-toprow">
+                <div class="preview-avatar" id="previewAvatar"></div>
+                <div id="previewNameWrap">
+                  <div class="preview-name" id="previewName">Sarah Smith<span class="verify" id="previewVerify"><i
+                        class="fa-solid fa-circle-check"></i></span></div>
+                  <div class="preview-title" id="previewJob">Senior Technology Editor</div>
+                </div>
+              </div>
+              <div class="preview-bio" id="previewBio">Covering AI, gadgets, and the future of computing for over 8
+                years.</div>
+              <div class="preview-stats" id="previewStats">142 Articles &nbsp;·&nbsp; Joined 2019</div>
+              <div class="preview-cardswrap" id="previewCardsWrap">
+                <div class="preview-main-col" id="previewMainCol"></div>
+              </div>
+            </div>
+          </div>
+          <div class="preview-note" id="previewNote">Reflects your Layout &amp; Font selections.</div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <script>
+    // ---------------------------------------------------------------------
+    // Central state
+    // ---------------------------------------------------------------------
+    const state = {
+      layout: 'Centered Bio + Grid',
+      bio: {
+        showBioText: true,
+        showVerified: true,
+        showJob: true,
+        name: 'Sarah Smith',
+        job: 'Senior Technology Editor',
+        text: 'Covering AI, gadgets, and the future of computing for over 8 years.'
+      },
+      listing: { perRow: 3, showExcerpt: false, showTag: true },
+      social: {
+        links: [
+          { platform: 'twitter', url: 'https://x.com/sarahsmith' },
+          { platform: 'linkedin', url: 'https://linkedin.com/in/sarahsmith' },
+          { platform: 'instagram', url: 'https://instagram.com/sarahsmith' }
+        ]
+      },
+      stats: [
+        { name: 'Article Count', enabled: true },
+        { name: 'Joined Date', enabled: true },
+        { name: 'Follower Count', enabled: false }
+      ],
+      font: { family: "-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif", label: 'System Default', nameSize: 'medium' }
+    };
+    const DEFAULT_STATE = JSON.parse(JSON.stringify(state));
+
+    const $ = id => document.getElementById(id);
+    const NAME_SIZES = { small: '13px', medium: '15px', large: '18px' };
+    const SOCIAL_ICONS = {
+      twitter: 'fa-brands fa-x-twitter',
+      linkedin: 'fa-brands fa-linkedin',
+      instagram: 'fa-brands fa-instagram',
+      facebook: 'fa-brands fa-facebook',
+      youtube: 'fa-brands fa-youtube',
+      tiktok: 'fa-brands fa-tiktok'
+    };
+    const SAMPLE_ARTICLES = [
+      { title: 'New AI Chip Unveiled' },
+      { title: '5G Rollout Expands' },
+      { title: 'Startup Raises $40M' },
+      { title: 'App Update Adds Widgets' }
+    ];
+
+    // ---------------------------------------------------------------------
+    // Tabs
+    // ---------------------------------------------------------------------
+    const tabs = document.querySelectorAll('.tab');
+    const panels = document.querySelectorAll('.tab-panel');
+    function activateTab(name) {
+      tabs.forEach(t => t.classList.toggle('active', t.dataset.tab === name));
+      panels.forEach(p => p.classList.toggle('active', p.dataset.panel === name));
+    }
+    tabs.forEach(tab => tab.addEventListener('click', () => activateTab(tab.dataset.tab)));
+    document.querySelectorAll('[data-jump]').forEach(a => a.addEventListener('click', () => activateTab(a.dataset.jump)));
+
+    // ---------------------------------------------------------------------
+    // Layout selection
+    // ---------------------------------------------------------------------
+    const layoutOptions = document.querySelectorAll('.layout-option');
+    layoutOptions.forEach(opt => {
+      opt.addEventListener('click', () => {
+        layoutOptions.forEach(o => o.classList.remove('selected'));
+        opt.classList.add('selected');
+        state.layout = opt.dataset.layout;
+        renderPreview();
+      });
+    });
+
+    // ---------------------------------------------------------------------
+    // Author Bio (Bio Text / Verified Badge synced with sidebar)
+    // ---------------------------------------------------------------------
+    function setBioText(val) {
+      state.bio.showBioText = val;
+      $('bioTextTabToggle').classList.toggle('on', val);
+      $('bioTextSideToggle').classList.toggle('on', val);
+      renderPreview();
+    }
+    $('bioTextTabToggle').addEventListener('click', () => setBioText(!state.bio.showBioText));
+    $('bioTextSideToggle').addEventListener('click', () => setBioText(!state.bio.showBioText));
+
+    function setVerified(val) {
+      state.bio.showVerified = val;
+      $('bioVerifiedTabToggle').classList.toggle('on', val);
+      $('bioVerifiedSideToggle').classList.toggle('on', val);
+      renderPreview();
+    }
+    $('bioVerifiedTabToggle').addEventListener('click', () => setVerified(!state.bio.showVerified));
+    $('bioVerifiedSideToggle').addEventListener('click', () => setVerified(!state.bio.showVerified));
+
+    $('bioJobTabToggle').addEventListener('click', () => {
+      state.bio.showJob = !state.bio.showJob;
+      $('bioJobTabToggle').classList.toggle('on', state.bio.showJob);
+      renderPreview();
+    });
+    $('bioName').addEventListener('input', e => { state.bio.name = e.target.value; renderPreview(); });
+    $('bioJob').addEventListener('input', e => { state.bio.job = e.target.value; renderPreview(); });
+    $('bioText').addEventListener('input', e => { state.bio.text = e.target.value; renderPreview(); });
+
+    // ---------------------------------------------------------------------
+    // Article Listing
+    // ---------------------------------------------------------------------
+    document.querySelectorAll('.size-btn[data-perrow]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.size-btn[data-perrow]').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        state.listing.perRow = +btn.dataset.perrow;
+        renderPreview();
+      });
+    });
+    $('listingExcerptToggle').addEventListener('click', () => {
+      state.listing.showExcerpt = !state.listing.showExcerpt;
+      $('listingExcerptToggle').classList.toggle('on', state.listing.showExcerpt);
+      renderPreview();
+    });
+    $('listingTagToggle').addEventListener('click', () => {
+      state.listing.showTag = !state.listing.showTag;
+      $('listingTagToggle').classList.toggle('on', state.listing.showTag);
+      renderPreview();
+    });
+
+    // ---------------------------------------------------------------------
+    // Social links
+    // ---------------------------------------------------------------------
+    const socialEditor = $('socialEditor');
+    function renderSocialEditor() {
+      socialEditor.innerHTML = '';
+      state.social.links.forEach((link, i) => {
+        const row = document.createElement('div');
+        row.className = 'social-row';
+        row.innerHTML = `
+        <select data-i="${i}">
+          ${Object.keys(SOCIAL_ICONS).map(p => `<option value="${p}" ${p === link.platform ? 'selected' : ''}>${p[0].toUpperCase() + p.slice(1)}</option>`).join('')}
+        </select>
+        <input type="text" data-i="${i}" value="${link.url}" placeholder="https://...">
+        <button class="del-btn" data-i="${i}"><i class="fa-solid fa-trash-can"></i></button>
+      `;
+        socialEditor.appendChild(row);
+      });
+      socialEditor.querySelectorAll('select').forEach(sel => {
+        sel.addEventListener('change', () => {
+          state.social.links[+sel.dataset.i].platform = sel.value;
+          renderSocialChips();
+        });
+      });
+      socialEditor.querySelectorAll('.social-row input').forEach(inp => {
+        inp.addEventListener('input', () => { state.social.links[+inp.dataset.i].url = inp.value; });
+      });
+      socialEditor.querySelectorAll('.del-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          state.social.links.splice(+btn.dataset.i, 1);
+          renderSocialEditor();
+          renderSocialChips();
+        });
+      });
+    }
+    $('addSocialBtn').addEventListener('click', () => {
+      state.social.links.push({ platform: 'twitter', url: '' });
+      renderSocialEditor();
+      renderSocialChips();
+    });
+
+    function renderSocialChips() {
+      const wrap = $('socialChipRow');
+      wrap.innerHTML = state.social.links.map(l => `<div class="social-chip"><i class="${SOCIAL_ICONS[l.platform] || 'fa-solid fa-link'}"></i></div>`).join('')
+        || `<div style="font-size:12.5px;color:var(--text-muted);">No links added</div>`;
+    }
+
+    // ---------------------------------------------------------------------
+    // Stats
+    // ---------------------------------------------------------------------
+    const statsEditor = $('statsEditor');
+    function renderStatsEditor() {
+      statsEditor.innerHTML = '';
+      state.stats.forEach((s, i) => {
+        const row = document.createElement('div');
+        row.className = 'stat-row';
+        row.innerHTML = `
+        <i class="fa-solid fa-grip-vertical grip"></i>
+        <span>${s.name}</span>
+        <div class="toggle ${s.enabled ? 'on' : ''}" data-i="${i}"><div class="knob"></div></div>
+      `;
+        statsEditor.appendChild(row);
+      });
+      statsEditor.querySelectorAll('.toggle').forEach(t => {
+        t.addEventListener('click', () => {
+          const i = +t.dataset.i;
+          state.stats[i].enabled = !state.stats[i].enabled;
+          t.classList.toggle('on', state.stats[i].enabled);
+          renderPreview();
+        });
+      });
+    }
+
+    // ---------------------------------------------------------------------
+    // Font
+    // ---------------------------------------------------------------------
+    $('fontFamilySelect').addEventListener('change', e => {
+      const opt = e.target.selectedOptions[0];
+      state.font.family = opt.value;
+      state.font.label = opt.dataset.label;
+      renderPreview();
+    });
+    document.querySelectorAll('.size-btn[data-namesize]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.size-btn[data-namesize]').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        state.font.nameSize = btn.dataset.namesize;
+        renderPreview();
+      });
+    });
+
+    // ---------------------------------------------------------------------
+    // Master preview renderer
+    // ---------------------------------------------------------------------
+    function renderPreview() {
+      // font sample
+      $('fontSampleAa').style.fontFamily = state.font.family;
+      $('fontSampleName').textContent = state.font.label;
+
+      const body = $('previewBody');
+      const cover = $('previewCover');
+      const cardsWrap = $('previewCardsWrap');
+      const mainCol = $('previewMainCol');
+
+      // reset structural bits
+      body.classList.remove('align-left');
+      cover.style.height = '0px';
+      cardsWrap.classList.remove('sidebar-mode');
+      cardsWrap.innerHTML = '<div class="preview-main-col" id="previewMainCol"></div>';
+      let freshMainCol = $('previewMainCol');
+
+      const leftAligned = ['Sidebar Bio + List', 'Sidebar Bio + Grid', 'Minimal'];
+      if (leftAligned.includes(state.layout)) body.classList.add('align-left');
+      if (state.layout === 'Cover Banner + Bio') cover.style.height = '44px';
+
+      const hasSidebar = state.layout === 'Sidebar Bio + Grid';
+      if (hasSidebar) {
+        cardsWrap.classList.add('sidebar-mode');
+        cardsWrap.innerHTML = `<div class="preview-sidebar-col" id="previewMiniProfile"></div><div class="preview-main-col" id="previewMainCol"></div>`;
+        freshMainCol = $('previewMainCol');
+        $('previewMiniProfile').innerHTML = `
+        <div class="sblock">
+          <div style="width:34px;height:34px;border-radius:50%;background:#d8d9e4;margin:0 auto 8px;"></div>
+          <div class="wl" style="width:70%;margin:0 auto 5px;"></div>
+          <div class="wl" style="width:50%;margin:0 auto;"></div>
+        </div>`;
+      }
+
+      // name / job / verified / bio / stats
+      $('previewName').style.fontFamily = state.font.family;
+      $('previewName').style.fontSize = NAME_SIZES[state.font.nameSize];
+      $('previewName').firstChild.textContent = state.bio.name + ' ';
+      $('previewVerify').style.display = state.bio.showVerified ? 'inline' : 'none';
+      $('previewJob').style.display = state.bio.showJob ? 'block' : 'none';
+      $('previewJob').textContent = state.bio.job;
+      $('previewBio').style.display = state.bio.showBioText ? 'block' : 'none';
+      $('previewBio').textContent = state.bio.text;
+
+      let statParts = [];
+      state.stats.forEach(s => {
+        if (!s.enabled) return;
+        if (s.name === 'Article Count') statParts.push('142 Articles');
+        if (s.name === 'Joined Date') statParts.push('Joined 2019');
+        if (s.name === 'Follower Count') statParts.push('8.2K Followers');
+      });
+      $('previewStats').style.display = statParts.length ? 'block' : 'none';
+      $('previewStats').textContent = statParts.join('  ·  ');
+
+      // article listing
+      const isList = state.layout === 'Sidebar Bio + List';
+      const isCard = state.layout === 'Card Style';
+      let count = hasSidebar ? 3 : (state.listing.perRow === 4 ? 4 : (state.listing.perRow === 2 ? 2 : 2));
+      if (state.layout === 'Minimal') count = 0;
+
+      freshMainCol.classList.toggle('grid-mode', !isList && !hasSidebar && count > 0);
+      if (hasSidebar) freshMainCol.style.display = 'grid', freshMainCol.style.gridTemplateColumns = '1fr 1fr 1fr', freshMainCol.style.gap = '10px';
+      else freshMainCol.style.display = '';
+
+      const articles = SAMPLE_ARTICLES.slice(0, count || 2);
+      if (count === 0) {
+        freshMainCol.innerHTML = '';
+      } else if (isList) {
+        freshMainCol.innerHTML = articles.map(a => `
+        <div class="article-card list-item">
+          <div class="thumb"></div>
+          <div>
+            ${state.listing.showTag ? `<div style="font-size:9px;font-weight:800;color:var(--purple);text-transform:uppercase;">Technology</div>` : ''}
+            <div class="cap" style="font-family:${state.font.family};">${a.title}</div>
+          </div>
+        </div>
+      `).join('');
+      } else {
+        freshMainCol.innerHTML = articles.map(a => `
+        <div class="article-card ${isCard ? 'card-style' : ''}">
+          <div class="thumb"></div>
+          ${state.listing.showTag ? `<div style="font-size:9px;font-weight:800;color:var(--purple);text-transform:uppercase;">Technology</div>` : ''}
+          <div class="cap" style="font-family:${state.font.family};">${a.title}</div>
+          ${state.listing.showExcerpt ? `<div style="font-size:10px;color:var(--text-muted);">Read the latest update.</div>` : ''}
+        </div>
+      `).join('');
+      }
+
+      // note
+      $('previewNote').textContent = `Reflects your ${state.layout} Layout & Font selections.`;
+    }
+
+    // ---------------------------------------------------------------------
+    // Save / Reset
+    // ---------------------------------------------------------------------
+    $('saveBtn').addEventListener('click', () => {
+      const btn = $('saveBtn');
+      const original = btn.innerHTML;
+      btn.innerHTML = '<i class="fa-solid fa-check"></i>Saved!';
+      setTimeout(() => btn.innerHTML = original, 1400);
+    });
+
+    $('resetBtn').addEventListener('click', () => {
+      Object.assign(state, JSON.parse(JSON.stringify(DEFAULT_STATE)));
+
+      layoutOptions.forEach(o => o.classList.toggle('selected', o.dataset.layout === state.layout));
+
+      setBioText(state.bio.showBioText);
+      setVerified(state.bio.showVerified);
+      $('bioJobTabToggle').classList.toggle('on', state.bio.showJob);
+      $('bioName').value = state.bio.name;
+      $('bioJob').value = state.bio.job;
+      $('bioText').value = state.bio.text;
+
+      document.querySelectorAll('.size-btn[data-perrow]').forEach(b => b.classList.toggle('active', +b.dataset.perrow === state.listing.perRow));
+      $('listingExcerptToggle').classList.toggle('on', state.listing.showExcerpt);
+      $('listingTagToggle').classList.toggle('on', state.listing.showTag);
+
+      renderSocialEditor();
+      renderSocialChips();
+      renderStatsEditor();
+
+      $('fontFamilySelect').value = state.font.family;
+      document.querySelectorAll('.size-btn[data-namesize]').forEach(b => b.classList.toggle('active', b.dataset.namesize === state.font.nameSize));
+
+      activateTab('layout');
+      renderPreview();
+    });
+
+    // ---------------------------------------------------------------------
+    // Initial render
+    // ---------------------------------------------------------------------
+    renderSocialEditor();
+    renderSocialChips();
+    renderStatsEditor();
+    renderPreview();
+  </script>
+  <!--  -->
+  <div class="modal-overlay" id="section-modal">
+    <div class="modal">
+      <div class="modal-head">
+        <h3>Add Homepage Section</h3><button class="modal-close" onclick="closeModal('section-modal')">✕</button>
+      </div>
+      <div class="form-grid">
+        <div class="fg full"><label>Section Name</label><input type="text" id="sec-name-input"
+            placeholder="e.g. Featured News" /></div>
+        <div class="fg"><label>Section Type</label><select id="sec-type-input">
+            <option>Featured</option>
+            <option>Latest</option>
+            <option>Category</option>
+            <option>Banner</option>
+            <option>Newsletter</option>
+          </select></div>
+        <div class="fg"><label>Linked Category</label><select id="sec-cat-input"></select></div>
+      </div>
+      <div class="form-foot">
+        <button class="btn btn-primary" onclick="addSection()">Add Section</button>
+        <button class="btn btn-ghost" onclick="closeModal('section-modal')">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast"></div>
+  <script src="script.js"></script>
+  </body>
+
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Latam Chronicle – Slides</title>
+<link rel="stylesheet" href="style.css"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
+</head>
+<body data-page="slide">
+<div id="sidebar-root"></div>
+<main class="main">
+  <div id="topbar-root"></div>
+  <div class="content">
+    <div class="page active">
+      <div class="page-header">
+        <div><h1>Slides</h1><p>Manage homepage slideshow banners</p></div>
+        <button class="btn btn-primary" onclick="openModal('slide-modal')">＋ New Slide</button>
+      </div>
+      <div class="scard">
+        <div class="scard-head"><h2>All Slides</h2><span style="font-size:0.75rem;color:var(--muted)">Drag to reorder</span></div>
+        <div class="slides-grid" id="slides-grid"></div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<div class="modal-overlay" id="slide-modal">
+  <div class="modal">
+    <div class="modal-head"><h3>New Slide</h3><button class="modal-close" onclick="closeModal('slide-modal')">✕</button></div>
+    <div class="form-grid">
+      <div class="fg full"><label>Slide Title</label><input type="text" id="slide-title-input" placeholder="Headline text…"/></div>
+      <div class="fg full"><label>Subtitle</label><input type="text" id="slide-sub-input" placeholder="Short description…"/></div>
+      <div class="fg full"><label>Image URL</label><input type="text" id="slide-img-input" placeholder="/images/slide.jpg"/></div>
+      <div class="fg"><label>Button Text</label><input type="text" placeholder="Read More"/></div>
+      <div class="fg"><label>Button Link</label><input type="text" placeholder="/article/slug"/></div>
+    </div>
+    <div class="form-foot">
+      <button class="btn btn-primary" onclick="saveSlide()">Add Slide</button>
+      <button class="btn btn-ghost" onclick="closeModal('slide-modal')">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+<script src="script.js"></script>
+</body>
+</html>

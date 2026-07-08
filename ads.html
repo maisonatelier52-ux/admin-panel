@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Latam Chronicle – Ads</title>
+<link rel="stylesheet" href="style.css"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
+</head>
+<body data-page="ads">
+<div id="sidebar-root"></div>
+<main class="main">
+  <div id="topbar-root"></div>
+  <div class="content">
+    <div class="page active">
+      <div class="page-header">
+        <div><h1>Ads Management</h1><p>Manage advertisements across your site</p></div>
+        <button class="btn btn-primary" onclick="openModal('ad-modal')">＋ New Ad</button>
+      </div>
+      <div class="stat-row" style="margin-bottom:18px">
+        <div class="stat-card"><div class="stat-icon si-green"><i class="fa-solid fa-circle"></i></div><div class="stat-info"><div class="label">Active Ads</div><div class="value">4</div><div class="sub">Running now</div></div></div>
+        <div class="stat-card"><div class="stat-icon si-blue"><i class="fa-solid fa-gear"></i></div><div class="stat-info"><div class="label">Total Impressions</div><div class="value">48.2K</div><div class="sub">This month</div></div></div>
+        <div class="stat-card"><div class="stat-icon si-orange"><i class="fa-solid fa-circle"></i></div><div class="stat-info"><div class="label">Total Clicks</div><div class="value">1,830</div><div class="sub">3.8% CTR</div></div></div>
+      </div>
+      <div class="scard">
+        <div class="scard-head"><h2>All Ads</h2></div>
+        <div class="ads-grid" id="ads-grid"></div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<div class="modal-overlay" id="ad-modal">
+  <div class="modal">
+    <div class="modal-head"><h3>New Ad</h3><button class="modal-close" onclick="closeModal('ad-modal')">✕</button></div>
+    <div class="form-grid">
+      <div class="fg full"><label>Ad Name</label><input type="text" id="ad-name-input" placeholder="e.g. Header Banner"/></div>
+      <div class="fg"><label>Position</label><select id="ad-pos-input"><option>Header</option><option>Sidebar</option><option>In-Article</option><option>Footer</option></select></div>
+      <div class="fg"><label>Size</label><select><option>728×90 (Leaderboard)</option><option>300×250 (Rectangle)</option><option>160×600 (Skyscraper)</option><option>320×50 (Mobile)</option></select></div>
+      <div class="fg full"><label>Ad Code / Image URL</label><textarea id="ad-code-input" placeholder="Paste ad code or image URL…"></textarea></div>
+      <div class="fg"><label>Start Date</label><input type="date"/></div>
+      <div class="fg"><label>End Date</label><input type="date"/></div>
+    </div>
+    <div class="form-foot">
+      <button class="btn btn-primary" onclick="saveAd()">Create Ad</button>
+      <button class="btn btn-ghost" onclick="closeModal('ad-modal')">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+<script src="script.js"></script>
+</body>
+</html>

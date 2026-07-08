@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Latam Chronicle – Subscriptions</title>
+<link rel="stylesheet" href="style.css"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
+</head>
+<body data-page="subscription">
+<div id="sidebar-root"></div>
+<main class="main">
+  <div id="topbar-root"></div>
+  <div class="content">
+    <div class="page active">
+      <div class="page-header">
+        <div><h1>Subscriptions</h1><p>Manage subscriber plans and revenue</p></div>
+        <button class="btn btn-primary" onclick="toast('Plan creation coming soon!')">＋ New Plan</button>
+      </div>
+      <div class="sub-stat-row">
+        <div class="sub-stat"><div class="sv">1,284</div><div class="sk">Total Subscribers</div></div>
+        <div class="sub-stat"><div class="sv">$3,840</div><div class="sk">Monthly Revenue</div></div>
+        <div class="sub-stat"><div class="sv">48</div><div class="sk">New This Week</div></div>
+        <div class="sub-stat"><div class="sv">96%</div><div class="sk">Retention Rate</div></div>
+      </div>
+      <div class="sub-plans" id="sub-plans"></div>
+      <div class="scard">
+        <div class="scard-head"><h2>Recent Subscribers</h2></div>
+        <table><thead><tr><th>Name</th><th>Email</th><th>Plan</th><th>Date</th><th>Status</th></tr></thead>
+        <tbody id="sub-tbody"></tbody></table>
+      </div>
+    </div>
+  </div>
+</main>
+
+<div id="toast"></div>
+<script src="script.js"></script>
+</body>
+</html>

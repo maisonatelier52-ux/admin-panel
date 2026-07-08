@@ -1,0 +1,1314 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>News Admin — Category Page Builder</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --page-bg: #f3f4f8;
+            --card-bg: #ffffff;
+            --border: #e6e7ee;
+            --text-dark: #1a1a2e;
+            --text-muted: #8a8ba3;
+            --purple: #4f46e5;
+            --purple-dark: #4338ca;
+            --purple-tint: #f2f0fd;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+
+       /* Page head */
+        .page-head {
+             display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+           
+            flex-wrap: wrap;
+            gap: 14px;
+            padding: 20px 22px 0px;
+        }
+
+       .page-head h1{
+      font-size: 1.1rem;
+    font-weight: 800;
+}
+
+        .page-head p {
+            color: var(--text-muted);
+            font-size: 13.5px;
+        }
+
+        .head-actions {
+            display: flex;
+            gap: 10px;
+            flex-shrink: 0;
+        }
+       .btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-radius: 8px;
+            padding: 6px 16px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            font-family: inherit;
+            transition: background .15s ease, transform .05s ease;
+        }
+        .btn:active {
+            transform: translateY(1px);
+        }
+
+        .btn-outline {
+            background: #fff;
+            border: 1px solid var(--border);
+            color: var(--text-dark);
+        }
+
+        .btn-outline:hover {
+            background: #fafafc;
+        }
+
+        .btn-primary {
+            background: var(--purple);
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            background: var(--purple-dark);
+        }
+
+        .content {
+            display: grid;
+            grid-template-columns: 1fr 330px;
+            gap: 20px;
+            align-items: start;
+        }
+
+        .builder-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            overflow: hidden;
+        }
+
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid var(--border);
+            padding: 0 30px;
+            gap: 26px;
+            overflow-x: auto;
+        }
+
+        .tab {
+            padding: 16px 2px;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text-muted);
+            cursor: pointer;
+            white-space: nowrap;
+            border-bottom: 2px solid transparent;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            user-select: none;
+        }
+
+        .tab i {
+            font-size: 13px;
+            width: 14px;
+            text-align: center;
+        }
+
+        .tab:hover {
+            color: var(--text-dark);
+        }
+
+        .tab.active {
+            color: var(--purple);
+            border-bottom-color: var(--purple);
+        }
+
+        .tab-panel {
+            padding: 26px 30px;
+            display: none;
+        }
+
+        .tab-panel.active {
+            display: block;
+        }
+
+        .tab-panel h3 {
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .tab-panel>p.hint {
+            color: var(--text-muted);
+            font-size: 13.5px;
+            margin-bottom: 20px;
+        }
+
+        /* Layout grid */
+        .layout-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+        }
+
+        .layout-option {
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 14px 14px 16px;
+            cursor: pointer;
+            transition: border-color .15s ease, box-shadow .15s ease;
+        }
+
+        .layout-option:hover {
+            border-color: #c9c9f5;
+        }
+
+        .layout-option.selected {
+            border-color: var(--purple);
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+        }
+
+        .preview-box {
+            height: 78px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: #fafafa;
+            padding: 10px;
+            display: flex;
+            gap: 8px;
+            margin-bottom: 12px;
+            overflow: hidden;
+        }
+
+        .lp-card {
+            background: #d7d8e4;
+            border-radius: 5px;
+            flex: 1;
+        }
+
+        .lp-col {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            flex: 1;
+        }
+
+        .lp-row {
+            display: flex;
+            gap: 8px;
+        }
+
+        .bar {
+            border-radius: 3px;
+            height: 6px;
+            background: #c7c8d6;
+        }
+
+        .bar.thin {
+            height: 4px;
+            background: #dcdde8;
+        }
+
+        .bar.dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #c7c8d6;
+            flex-shrink: 0;
+        }
+
+        .sidebar-box {
+            width: 26%;
+            background: #e3e4ef;
+            border-radius: 6px;
+            align-self: stretch;
+        }
+
+        .masonry-tall {
+            height: 100%;
+        }
+
+        .masonry-short {
+            height: 60%;
+            align-self: flex-end;
+        }
+
+        .magazine-hero {
+            background: #9a9bc0;
+            border-radius: 5px;
+            flex: 1.6;
+        }
+
+        .radio-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .radio-dot {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            border: 2px solid #c9c9d6;
+            flex-shrink: 0;
+            position: relative;
+        }
+
+        .layout-option.selected .radio-dot {
+            border-color: var(--purple);
+        }
+
+        .layout-option.selected .radio-dot::after {
+            content: "";
+            position: absolute;
+            inset: 3px;
+            border-radius: 50%;
+            background: var(--purple);
+        }
+
+        .field-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .field-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .field-row label {
+            font-size: 13px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .field-row label i {
+            color: var(--text-muted);
+            width: 14px;
+            text-align: center;
+        }
+
+        .field-block {
+            margin-bottom: 18px;
+        }
+
+        .field-block:last-child {
+            margin-bottom: 0;
+        }
+
+        .field-block>label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+        }
+
+        .text-input {
+            width: 100%;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 10px 12px;
+            font-size: 14px;
+            font-family: inherit;
+            outline: none;
+            color: var(--text-dark);
+        }
+
+        .text-input:focus {
+            border-color: var(--purple);
+        }
+
+        .select-input {
+            width: 100%;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 10px 12px;
+            font-size: 14px;
+            font-family: inherit;
+            outline: none;
+            color: var(--text-dark);
+            background: #fff;
+            max-width: 280px;
+        }
+
+        .select-input:focus {
+            border-color: var(--purple);
+        }
+
+        .toggle {
+            width: 40px;
+            height: 20px;
+            background: #d8d9e4;
+            border-radius: 999px;
+            position: relative;
+            cursor: pointer;
+            transition: background .2s ease;
+            flex-shrink: 0;
+        }
+
+        .toggle.on {
+            background: var(--purple);
+        }
+
+        .toggle .knob {
+            position: absolute;
+            top: 1px;
+            left: 3px;
+            width: 18px;
+            height: 18px;
+            background: #fff;
+            border-radius: 50%;
+            transition: left .2s ease;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        .toggle.on .knob {
+            left: 21px;
+        }
+
+        .size-group {
+            display: flex;
+            gap: 8px;
+            max-width: 360px;
+        }
+
+        .size-btn {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: #fff;
+            cursor: pointer;
+            font-size: 13.5px;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-align: center;
+        }
+
+        .size-btn.active {
+            border-color: var(--purple);
+            color: var(--purple);
+            background: var(--purple-tint);
+        }
+
+        .color-fields {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+
+        .color-field label {
+            display: block;
+            font-size: 12.5px;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+        }
+
+        .color-input {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 8px 10px;
+        }
+
+        .color-swatch {
+            width: 16px;
+            height: 16px;
+            border-radius: 3px;
+            border: 1px solid rgba(0, 0, 0, 0.15);
+            flex-shrink: 0;
+            cursor: pointer;
+            padding: 0;
+        }
+
+        .color-input input[type="text"] {
+            border: none;
+            outline: none;
+            font-size: 13px;
+            width: 100%;
+            font-family: inherit;
+            color: var(--text-dark);
+        }
+
+        /* Sidebar widgets list */
+        .widget-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 9px 12px;
+            background: #fff;
+            margin-bottom: 10px;
+        }
+
+        .widget-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .widget-row i.grip {
+            color: #c7c8d6;
+            font-size: 13px;
+            cursor: grab;
+        }
+
+        .widget-row span {
+            flex: 1;
+            font-size: 13.5px;
+            font-weight: 500;
+        }
+
+        /* Right column */
+        .side-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 24px;
+        }
+
+        .side-card+.side-card {
+            margin-top: 20px;
+        }
+
+        .side-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .side-head h4 {
+            font-size: 13.5px;
+            font-weight: 700;
+        }
+
+        .side-head a {
+            color: var(--purple);
+            font-size: 13px;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 3px;
+        }
+
+        .side-head a:hover {
+            text-decoration: underline;
+        }
+
+        .summary-line {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        /* Preview */
+        .preview-frame {
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .preview-header {
+            background: #14142b;
+            color: #fff;
+            padding: 16px 18px;
+        }
+
+        .preview-header.bg-light {
+            background: #eceef5;
+            color: #3a3a52;
+        }
+
+        .preview-header.bg-brand {
+            background: var(--purple);
+            color: #fff;
+        }
+
+        .preview-header h5 {
+            font-size: 17px;
+            font-weight: 800;
+            margin-bottom: 4px;
+        }
+
+        .preview-header .sub {
+            font-size: 11.5px;
+            opacity: .75;
+        }
+
+        .preview-listing {
+            padding: 14px 16px 6px;
+            display: grid;
+            gap: 10px;
+        }
+
+        .preview-listing.grid3 {
+            grid-template-columns: 1fr 1fr 1fr;
+        }
+
+        .preview-listing.grid2 {
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .preview-listing.list1 {
+            grid-template-columns: 1fr;
+        }
+
+        .preview-card {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .preview-card .thumb {
+            background: #e3e4ef;
+            border-radius: 6px;
+            height: 44px;
+        }
+
+        .preview-card .thumb.tall {
+            height: 70px;
+        }
+
+        .preview-card .thumb.short {
+            height: 24px;
+        }
+
+        .preview-card .cap {
+            font-size: 11px;
+            font-weight: 700;
+            line-height: 1.3;
+        }
+
+        .preview-card.list-item {
+            flex-direction: row;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .preview-card.list-item .thumb {
+            width: 44px;
+            height: 32px;
+            flex-shrink: 0;
+        }
+
+        .preview-sidebar-block {
+            background: #f3f4f8;
+            border-radius: 6px;
+            margin: 0 16px 12px;
+            padding: 10px;
+        }
+
+        .preview-sidebar-block .wtitle {
+            font-size: 10.5px;
+            font-weight: 800;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: .3px;
+        }
+
+        .preview-sidebar-block .wline {
+            height: 5px;
+            background: #dcdde8;
+            border-radius: 3px;
+            margin-bottom: 5px;
+        }
+
+        .preview-note {
+            font-size: 11.5px;
+            color: var(--text-muted);
+            margin-top: 6px;
+            text-align: center;
+            padding: 0 0 16px;
+        }
+
+        .preview-wrap-flex {
+            display: flex;
+            gap: 12px;
+            padding: 0 16px;
+        }
+
+        @media (max-width: 980px) {
+            .content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .layout-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .preview-listing.grid3 {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body data-page="homepage">
+    <div id="sidebar-root"></div>
+    <main class="main">
+        <div id="topbar-root"></div>
+
+        <div class="page-head">
+            <div>
+                <h1>Category Page Builder</h1>
+                <p>Design how category/section pages (e.g. /category/technology) look. Applies to every category.</p>
+            </div>
+            <div class="head-actions">
+                <button class="btn btn-outline" id="resetBtn"><i class="fa-solid fa-rotate-left"></i>Reset to
+                    Default</button>
+                <button class="btn btn-primary" id="saveBtn"><i class="fa-solid fa-floppy-disk"></i>Save Category
+                    Page</button>
+            </div>
+        </div>
+
+        <div class="content">
+            <!-- Builder card -->
+            <div class="builder-card">
+                <div class="tabs" id="tabs">
+                    <div class="tab active" data-tab="layout"><i class="fa-solid fa-table-cells-large"></i>Layout</div>
+                    <div class="tab" data-tab="header"><i class="fa-regular fa-square"></i>Category Header</div>
+                    <div class="tab" data-tab="listing"><i class="fa-solid fa-table-cells"></i>Article Listing</div>
+                    <div class="tab" data-tab="sidebar"><i class="fa-regular fa-window-restore"></i>Sidebar</div>
+                    <div class="tab" data-tab="filters"><i class="fa-solid fa-arrow-down-wide-short"></i>Filters &amp;
+                        Pagination</div>
+                    <div class="tab" data-tab="font"><i class="fa-solid fa-font"></i>Font</div>
+                </div>
+
+                <!-- LAYOUT -->
+                <div class="tab-panel active" data-panel="layout">
+                    <h3>Category Layout</h3>
+                    <p class="hint">Choose how articles are arranged on the category page.</p>
+                    <div class="layout-grid" id="layoutGrid">
+
+                        <div class="layout-option selected" data-layout="Grid">
+                            <div class="preview-box">
+                                <div class="lp-col">
+                                    <div class="lp-row">
+                                        <div class="lp-card"></div>
+                                        <div class="lp-card"></div>
+                                        <div class="lp-card"></div>
+                                    </div>
+                                    <div class="lp-row">
+                                        <div class="lp-card"></div>
+                                        <div class="lp-card"></div>
+                                        <div class="lp-card"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <label class="radio-label"><span class="radio-dot"></span>Grid</label>
+                        </div>
+
+                        <div class="layout-option" data-layout="List">
+                            <div class="preview-box">
+                                <div class="lp-col" style="justify-content:center;gap:8px;">
+                                    <div class="lp-row" style="align-items:center;">
+                                        <div class="bar dot"></div>
+                                        <div class="bar" style="width:80%"></div>
+                                    </div>
+                                    <div class="lp-row" style="align-items:center;">
+                                        <div class="bar dot"></div>
+                                        <div class="bar" style="width:70%"></div>
+                                    </div>
+                                    <div class="lp-row" style="align-items:center;">
+                                        <div class="bar dot"></div>
+                                        <div class="bar" style="width:75%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <label class="radio-label"><span class="radio-dot"></span>List</label>
+                        </div>
+
+                        <div class="layout-option" data-layout="Grid + Sidebar">
+                            <div class="preview-box">
+                                <div class="lp-col">
+                                    <div class="lp-row">
+                                        <div class="lp-card"></div>
+                                        <div class="lp-card"></div>
+                                    </div>
+                                    <div class="lp-row">
+                                        <div class="lp-card"></div>
+                                        <div class="lp-card"></div>
+                                    </div>
+                                </div>
+                                <div class="sidebar-box"></div>
+                            </div>
+                            <label class="radio-label"><span class="radio-dot"></span>Grid + Sidebar</label>
+                        </div>
+
+                        <div class="layout-option" data-layout="Masonry">
+                            <div class="preview-box">
+                                <div class="lp-card masonry-tall"></div>
+                                <div class="lp-card masonry-short"></div>
+                                <div class="lp-card masonry-tall"></div>
+                            </div>
+                            <label class="radio-label"><span class="radio-dot"></span>Masonry</label>
+                        </div>
+
+                        <div class="layout-option" data-layout="Magazine Mix">
+                            <div class="preview-box">
+                                <div class="magazine-hero"></div>
+                                <div class="lp-col">
+                                    <div class="lp-card" style="flex:1;"></div>
+                                    <div class="lp-card" style="flex:1;"></div>
+                                </div>
+                            </div>
+                            <label class="radio-label"><span class="radio-dot"></span>Magazine Mix</label>
+                        </div>
+
+                        <div class="layout-option" data-layout="Compact List">
+                            <div class="preview-box">
+                                <div class="lp-col" style="justify-content:center;gap:6px;">
+                                    <div class="bar thin" style="width:95%"></div>
+                                    <div class="bar thin" style="width:88%"></div>
+                                    <div class="bar thin" style="width:92%"></div>
+                                    <div class="bar thin" style="width:80%"></div>
+                                </div>
+                            </div>
+                            <label class="radio-label"><span class="radio-dot"></span>Compact List</label>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- CATEGORY HEADER -->
+                <div class="tab-panel" data-panel="header">
+                    <h3>Category Header</h3>
+                    <p class="hint">Control the banner shown at the top of each category page.</p>
+                    <div class="field-row"><label><i class="fa-solid fa-align-left"></i>Description</label>
+                        <div class="toggle on" id="headerDescTabToggle">
+                            <div class="knob"></div>
+                        </div>
+                    </div>
+                    <div class="field-row"><label><i class="fa-solid fa-hashtag"></i>Article Count</label>
+                        <div class="toggle on" id="headerCountTabToggle">
+                            <div class="knob"></div>
+                        </div>
+                    </div>
+                    <div class="field-block" style="margin-top:18px;">
+                        <label>Example category name</label>
+                        <input type="text" class="text-input" id="headerTitle" value="Technology">
+                    </div>
+                    <div class="field-block">
+                        <label>Example description</label>
+                        <input type="text" class="text-input" id="headerDesc" value="Latest in tech, gadgets & AI">
+                    </div>
+                    <div class="field-block">
+                        <label>Header background</label>
+                        <select class="select-input" id="headerBgSelect">
+                            <option value="dark" selected>Dark</option>
+                            <option value="light">Light</option>
+                            <option value="brand">Brand Color</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- ARTICLE LISTING -->
+                <div class="tab-panel" data-panel="listing">
+                    <h3>Article Listing</h3>
+                    <p class="hint">Control how each article card appears in the listing.</p>
+                    <div class="field-block">
+                        <label>Cards per row</label>
+                        <div class="size-group">
+                            <div class="size-btn" data-perrow="2">2</div>
+                            <div class="size-btn active" data-perrow="3">3</div>
+                            <div class="size-btn" data-perrow="4">4</div>
+                        </div>
+                    </div>
+                    <div class="field-row"><label><i class="fa-solid fa-align-justify"></i>Show excerpt</label>
+                        <div class="toggle on" id="listingExcerptToggle">
+                            <div class="knob"></div>
+                        </div>
+                    </div>
+                    <div class="field-row"><label><i class="fa-solid fa-user"></i>Show author</label>
+                        <div class="toggle" id="listingAuthorToggle">
+                            <div class="knob"></div>
+                        </div>
+                    </div>
+                    <div class="field-row"><label><i class="fa-solid fa-tag"></i>Show category tag on card</label>
+                        <div class="toggle on" id="listingTagToggle">
+                            <div class="knob"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SIDEBAR -->
+                <div class="tab-panel" data-panel="sidebar">
+                    <h3>Sidebar Widgets</h3>
+                    <p class="hint">Choose which widgets appear in the sidebar (used by layouts with a sidebar).</p>
+                    <div id="widgetsEditor"></div>
+                </div>
+
+                <!-- FILTERS & PAGINATION -->
+                <div class="tab-panel" data-panel="filters">
+                    <h3>Filters &amp; Pagination</h3>
+                    <p class="hint">Control sorting, filtering, and how readers move through articles.</p>
+                    <div class="field-row"><label><i class="fa-solid fa-filter"></i>Show sort &amp; filter bar</label>
+                        <div class="toggle on" id="filtersToggle">
+                            <div class="knob"></div>
+                        </div>
+                    </div>
+                    <div class="field-block" style="margin-top:18px;">
+                        <label>Pagination type</label>
+                        <select class="select-input" id="paginationTypeSelect">
+                            <option value="Numbered Pages" selected>Numbered Pages</option>
+                            <option value="Load More Button">Load More Button</option>
+                            <option value="Infinite Scroll">Infinite Scroll</option>
+                        </select>
+                    </div>
+                    <div class="field-block">
+                        <label>Articles per page</label>
+                        <div class="size-group">
+                            <div class="size-btn" data-perpage="6">6</div>
+                            <div class="size-btn active" data-perpage="12">12</div>
+                            <div class="size-btn" data-perpage="24">24</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FONT -->
+                <div class="tab-panel" data-panel="font">
+                    <h3>Category Font</h3>
+                    <p class="hint">Set the typeface used for category titles and card headlines.</p>
+                    <div
+                        style="border:1px solid var(--border);border-radius:10px;padding:22px;text-align:center;margin-bottom:18px;background:#fafafa;">
+                        <div id="fontSampleAa" style="font-size:34px;font-weight:800;margin-bottom:6px;">Aa</div>
+                        <div id="fontSampleName" style="font-size:13px;color:var(--text-muted);">System Default</div>
+                    </div>
+                    <div class="field-block">
+                        <label>Typeface</label>
+                        <select class="select-input" id="fontFamilySelect">
+                            <option
+                                value="-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif"
+                                data-label="System Default" selected>System Default</option>
+                            <option value="'Playfair Display',Georgia,serif" data-label="Playfair Display (Serif)">
+                                Playfair Display (Serif)</option>
+                            <option value="Georgia,serif" data-label="Georgia (Serif)">Georgia (Serif)</option>
+                            <option value="Merriweather,Georgia,serif" data-label="Merriweather (Serif)">Merriweather
+                                (Serif)</option>
+                        </select>
+                    </div>
+                    <div class="field-block">
+                        <label>Title size</label>
+                        <div class="size-group">
+                            <div class="size-btn" data-titlesize="small">Small</div>
+                            <div class="size-btn active" data-titlesize="medium">Medium</div>
+                            <div class="size-btn" data-titlesize="large">Large</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right sidebar -->
+            <div>
+                <div class="side-card">
+                    <div class="side-head">
+                        <h4>Category Header</h4><a data-jump="header">Edit <i class="fa-solid fa-chevron-right"></i></a>
+                    </div>
+                    <div class="field-row"><label>Description</label>
+                        <div class="toggle on" id="headerDescSideToggle">
+                            <div class="knob"></div>
+                        </div>
+                    </div>
+                    <div class="field-row"><label>Article Count</label>
+                        <div class="toggle on" id="headerCountSideToggle">
+                            <div class="knob"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="side-card">
+                    <div class="side-head">
+                        <h4>Pagination</h4><a data-jump="filters">Edit <i class="fa-solid fa-chevron-right"></i></a>
+                    </div>
+                    <div class="summary-line" id="paginationSummary">Numbered Pages · 12 per page</div>
+                </div>
+
+                <div class="side-card">
+                    <div class="side-head">
+                        <h4>Preview</h4>
+                    </div>
+                    <div class="preview-frame">
+                        <div class="preview-header bg-dark" id="previewHeader">
+                            <h5 id="previewHeaderTitle">Technology</h5>
+                            <div class="sub" id="previewHeaderSub">128 articles · Latest in tech, gadgets &amp; AI</div>
+                        </div>
+                        <div class="preview-wrap-flex" id="previewWrapFlex">
+                            <div class="preview-listing grid3" id="previewListing"
+                                style="flex:1;padding-left:0;padding-right:0;"></div>
+                            <div id="previewSidebarWrap" style="display:none;width:34%;padding-top:12px;"></div>
+                        </div>
+                        <div class="preview-note" id="previewNote">Reflects your Layout &amp; Font selections.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script>
+        // ---------------------------------------------------------------------
+        // Central state
+        // ---------------------------------------------------------------------
+        const state = {
+            layout: 'Grid',
+            header: {
+                showDescription: true,
+                showArticleCount: true,
+                title: 'Technology',
+                description: 'Latest in tech, gadgets & AI',
+                articleCount: 128,
+                background: 'dark'
+            },
+            listing: { perRow: 3, showExcerpt: true, showAuthor: false, showTag: true },
+            widgets: [
+                { name: 'Popular Posts', enabled: true },
+                { name: 'Tags Cloud', enabled: true },
+                { name: 'Newsletter Signup', enabled: false }
+            ],
+            filters: { showBar: true, paginationType: 'Numbered Pages', perPage: 12 },
+            font: { family: "-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif", label: 'System Default', titleSize: 'medium' }
+        };
+        const DEFAULT_STATE = JSON.parse(JSON.stringify(state));
+
+        const $ = id => document.getElementById(id);
+        const TITLE_SIZES = { small: '14px', medium: '17px', large: '21px' };
+        const SAMPLE_ARTICLES = [
+            { title: 'New AI Chip Unveiled', excerpt: 'A next-gen chip promises major speed gains.' },
+            { title: '5G Rollout Expands', excerpt: 'Carriers push coverage into more regions.' },
+            { title: 'Startup Raises $40M', excerpt: 'Funding round led by top venture firms.' },
+            { title: 'App Update Adds Widgets', excerpt: 'The redesign focuses on home screen tools.' }
+        ];
+
+        // ---------------------------------------------------------------------
+        // Tabs
+        // ---------------------------------------------------------------------
+        const tabs = document.querySelectorAll('.tab');
+        const panels = document.querySelectorAll('.tab-panel');
+        function activateTab(name) {
+            tabs.forEach(t => t.classList.toggle('active', t.dataset.tab === name));
+            panels.forEach(p => p.classList.toggle('active', p.dataset.panel === name));
+        }
+        tabs.forEach(tab => tab.addEventListener('click', () => activateTab(tab.dataset.tab)));
+        document.querySelectorAll('[data-jump]').forEach(a => a.addEventListener('click', () => activateTab(a.dataset.jump)));
+
+        // ---------------------------------------------------------------------
+        // Layout selection
+        // ---------------------------------------------------------------------
+        const layoutOptions = document.querySelectorAll('.layout-option');
+        layoutOptions.forEach(opt => {
+            opt.addEventListener('click', () => {
+                layoutOptions.forEach(o => o.classList.remove('selected'));
+                opt.classList.add('selected');
+                state.layout = opt.dataset.layout;
+                renderPreview();
+            });
+        });
+
+        // ---------------------------------------------------------------------
+        // Category Header (Description / Article Count synced with sidebar)
+        // ---------------------------------------------------------------------
+        function setHeaderDesc(val) {
+            state.header.showDescription = val;
+            $('headerDescTabToggle').classList.toggle('on', val);
+            $('headerDescSideToggle').classList.toggle('on', val);
+            renderPreview();
+        }
+        $('headerDescTabToggle').addEventListener('click', () => setHeaderDesc(!state.header.showDescription));
+        $('headerDescSideToggle').addEventListener('click', () => setHeaderDesc(!state.header.showDescription));
+
+        function setHeaderCount(val) {
+            state.header.showArticleCount = val;
+            $('headerCountTabToggle').classList.toggle('on', val);
+            $('headerCountSideToggle').classList.toggle('on', val);
+            renderPreview();
+        }
+        $('headerCountTabToggle').addEventListener('click', () => setHeaderCount(!state.header.showArticleCount));
+        $('headerCountSideToggle').addEventListener('click', () => setHeaderCount(!state.header.showArticleCount));
+
+        $('headerTitle').addEventListener('input', e => { state.header.title = e.target.value; renderPreview(); });
+        $('headerDesc').addEventListener('input', e => { state.header.description = e.target.value; renderPreview(); });
+        $('headerBgSelect').addEventListener('change', e => { state.header.background = e.target.value; renderPreview(); });
+
+        // ---------------------------------------------------------------------
+        // Article Listing
+        // ---------------------------------------------------------------------
+        document.querySelectorAll('.size-btn[data-perrow]').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.size-btn[data-perrow]').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                state.listing.perRow = +btn.dataset.perrow;
+                renderPreview();
+            });
+        });
+        $('listingExcerptToggle').addEventListener('click', () => {
+            state.listing.showExcerpt = !state.listing.showExcerpt;
+            $('listingExcerptToggle').classList.toggle('on', state.listing.showExcerpt);
+            renderPreview();
+        });
+        $('listingAuthorToggle').addEventListener('click', () => {
+            state.listing.showAuthor = !state.listing.showAuthor;
+            $('listingAuthorToggle').classList.toggle('on', state.listing.showAuthor);
+            renderPreview();
+        });
+        $('listingTagToggle').addEventListener('click', () => {
+            state.listing.showTag = !state.listing.showTag;
+            $('listingTagToggle').classList.toggle('on', state.listing.showTag);
+            renderPreview();
+        });
+
+        // ---------------------------------------------------------------------
+        // Sidebar widgets
+        // ---------------------------------------------------------------------
+        const widgetsEditor = $('widgetsEditor');
+        function renderWidgetsEditor() {
+            widgetsEditor.innerHTML = '';
+            state.widgets.forEach((w, i) => {
+                const row = document.createElement('div');
+                row.className = 'widget-row';
+                row.innerHTML = `
+        <i class="fa-solid fa-grip-vertical grip"></i>
+        <span>${w.name}</span>
+        <div class="toggle ${w.enabled ? 'on' : ''}" data-i="${i}"><div class="knob"></div></div>
+      `;
+                widgetsEditor.appendChild(row);
+            });
+            widgetsEditor.querySelectorAll('.toggle').forEach(t => {
+                t.addEventListener('click', () => {
+                    const i = +t.dataset.i;
+                    state.widgets[i].enabled = !state.widgets[i].enabled;
+                    t.classList.toggle('on', state.widgets[i].enabled);
+                    renderPreview();
+                });
+            });
+        }
+
+        // ---------------------------------------------------------------------
+        // Filters & Pagination
+        // ---------------------------------------------------------------------
+        $('filtersToggle').addEventListener('click', () => {
+            state.filters.showBar = !state.filters.showBar;
+            $('filtersToggle').classList.toggle('on', state.filters.showBar);
+        });
+        $('paginationTypeSelect').addEventListener('change', e => {
+            state.filters.paginationType = e.target.value;
+            renderPaginationSummary();
+        });
+        document.querySelectorAll('.size-btn[data-perpage]').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.size-btn[data-perpage]').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                state.filters.perPage = +btn.dataset.perpage;
+                renderPaginationSummary();
+            });
+        });
+        function renderPaginationSummary() {
+            $('paginationSummary').textContent = `${state.filters.paginationType} · ${state.filters.perPage} per page`;
+        }
+
+        // ---------------------------------------------------------------------
+        // Font
+        // ---------------------------------------------------------------------
+        $('fontFamilySelect').addEventListener('change', e => {
+            const opt = e.target.selectedOptions[0];
+            state.font.family = opt.value;
+            state.font.label = opt.dataset.label;
+            renderPreview();
+        });
+        document.querySelectorAll('.size-btn[data-titlesize]').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.size-btn[data-titlesize]').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                state.font.titleSize = btn.dataset.titlesize;
+                renderPreview();
+            });
+        });
+
+        // ---------------------------------------------------------------------
+        // Master preview renderer
+        // ---------------------------------------------------------------------
+        function renderPreview() {
+            // font sample
+            $('fontSampleAa').style.fontFamily = state.font.family;
+            $('fontSampleName').textContent = state.font.label;
+
+            // header
+            const header = $('previewHeader');
+            header.classList.remove('bg-dark', 'bg-light', 'bg-brand');
+            header.classList.add('bg-' + state.header.background);
+            $('previewHeaderTitle').textContent = state.header.title;
+            $('previewHeaderTitle').style.fontFamily = state.font.family;
+            $('previewHeaderTitle').style.fontSize = TITLE_SIZES[state.font.titleSize];
+
+            let subParts = [];
+            if (state.header.showArticleCount) subParts.push(`${state.header.articleCount} articles`);
+            if (state.header.showDescription) subParts.push(state.header.description);
+            $('previewHeaderSub').textContent = subParts.join(' · ');
+            $('previewHeaderSub').style.display = subParts.length ? 'block' : 'none';
+
+            // sidebar presence
+            const hasSidebar = state.layout === 'Grid + Sidebar';
+            $('previewSidebarWrap').style.display = hasSidebar ? 'block' : 'none';
+            const sbWrap = $('previewSidebarWrap');
+            sbWrap.innerHTML = '';
+            if (hasSidebar) {
+                state.widgets.filter(w => w.enabled).forEach(w => {
+                    const block = document.createElement('div');
+                    block.className = 'preview-sidebar-block';
+                    block.innerHTML = `<div class="wtitle">${w.name}</div><div class="wline" style="width:90%"></div><div class="wline" style="width:70%"></div><div class="wline" style="width:80%"></div>`;
+                    sbWrap.appendChild(block);
+                });
+                if (!state.widgets.some(w => w.enabled)) {
+                    sbWrap.innerHTML = `<div class="preview-sidebar-block" style="opacity:.5;"><div class="wtitle">No widgets enabled</div></div>`;
+                }
+            }
+
+            // listing
+            const listing = $('previewListing');
+            listing.className = 'preview-listing';
+            let perRow = state.listing.perRow;
+            let count = perRow >= 4 ? 4 : 3;
+            let isList = state.layout === 'List' || state.layout === 'Compact List';
+            let isMasonry = state.layout === 'Masonry';
+            let isMagazine = state.layout === 'Magazine Mix';
+
+            if (isList) {
+                listing.classList.add('list1');
+            } else if (hasSidebar) {
+                listing.classList.add(perRow >= 3 ? 'grid2' : 'grid2');
+            } else {
+                listing.classList.add(perRow === 2 ? 'grid2' : perRow === 4 ? 'grid3' : 'grid3');
+                if (perRow === 4) listing.style.gridTemplateColumns = '1fr 1fr 1fr 1fr';
+                else if (perRow === 2) listing.style.gridTemplateColumns = '1fr 1fr';
+                else listing.style.gridTemplateColumns = '1fr 1fr 1fr';
+            }
+
+            const articles = SAMPLE_ARTICLES.slice(0, isList ? SAMPLE_ARTICLES.length : count);
+            listing.innerHTML = articles.map((a, idx) => {
+                const tag = state.listing.showTag ? `<div style="font-size:9px;font-weight:800;color:var(--purple);text-transform:uppercase;letter-spacing:.3px;">${state.header.title}</div>` : '';
+                const excerpt = state.listing.showExcerpt && !isList ? `<div style="font-size:10px;color:var(--text-muted);">${a.excerpt}</div>` : '';
+                const author = state.listing.showAuthor ? `<div style="font-size:9.5px;color:var(--text-muted);">By Staff Writer</div>` : '';
+                const cap = `<div class="cap" style="font-family:${state.font.family};">${a.title}</div>`;
+
+                if (isList) {
+                    return `<div class="preview-card list-item">
+          <div class="thumb"></div>
+          <div style="flex:1;">${tag}${cap}${state.listing.showExcerpt ? `<div style="font-size:10px;color:var(--text-muted);">${a.excerpt}</div>` : ''}${author}</div>
+        </div>`;
+                }
+                let thumbClass = 'thumb';
+                if (isMasonry) thumbClass += idx % 2 === 0 ? ' tall' : ' short';
+                if (isMagazine && idx === 0) thumbClass += ' tall';
+                return `<div class="preview-card">
+        <div class="${thumbClass}"></div>
+        ${tag}${cap}${excerpt}${author}
+      </div>`;
+            }).join('');
+
+            // note
+            $('previewNote').textContent = `Reflects your ${state.layout} Layout & Font selections.`;
+        }
+
+        // ---------------------------------------------------------------------
+        // Save / Reset
+        // ---------------------------------------------------------------------
+        $('saveBtn').addEventListener('click', () => {
+            const btn = $('saveBtn');
+            const original = btn.innerHTML;
+            btn.innerHTML = '<i class="fa-solid fa-check"></i>Saved!';
+            setTimeout(() => btn.innerHTML = original, 1400);
+        });
+
+        $('resetBtn').addEventListener('click', () => {
+            Object.assign(state, JSON.parse(JSON.stringify(DEFAULT_STATE)));
+
+            layoutOptions.forEach(o => o.classList.toggle('selected', o.dataset.layout === state.layout));
+
+            setHeaderDesc(state.header.showDescription);
+            setHeaderCount(state.header.showArticleCount);
+            $('headerTitle').value = state.header.title;
+            $('headerDesc').value = state.header.description;
+            $('headerBgSelect').value = state.header.background;
+
+            document.querySelectorAll('.size-btn[data-perrow]').forEach(b => b.classList.toggle('active', +b.dataset.perrow === state.listing.perRow));
+            $('listingExcerptToggle').classList.toggle('on', state.listing.showExcerpt);
+            $('listingAuthorToggle').classList.toggle('on', state.listing.showAuthor);
+            $('listingTagToggle').classList.toggle('on', state.listing.showTag);
+
+            renderWidgetsEditor();
+
+            $('filtersToggle').classList.toggle('on', state.filters.showBar);
+            $('paginationTypeSelect').value = state.filters.paginationType;
+            document.querySelectorAll('.size-btn[data-perpage]').forEach(b => b.classList.toggle('active', +b.dataset.perpage === state.filters.perPage));
+            renderPaginationSummary();
+
+            $('fontFamilySelect').value = state.font.family;
+            document.querySelectorAll('.size-btn[data-titlesize]').forEach(b => b.classList.toggle('active', b.dataset.titlesize === state.font.titleSize));
+
+            activateTab('layout');
+            renderPreview();
+        });
+
+        // ---------------------------------------------------------------------
+        // Initial render
+        // ---------------------------------------------------------------------
+        renderWidgetsEditor();
+        renderPaginationSummary();
+        renderPreview();
+    </script>
+    <!--  -->
+    <div class="modal-overlay" id="section-modal">
+        <div class="modal">
+            <div class="modal-head">
+                <h3>Add Homepage Section</h3><button class="modal-close"
+                    onclick="closeModal('section-modal')">✕</button>
+            </div>
+            <div class="form-grid">
+                <div class="fg full"><label>Section Name</label><input type="text" id="sec-name-input"
+                        placeholder="e.g. Featured News" /></div>
+                <div class="fg"><label>Section Type</label><select id="sec-type-input">
+                        <option>Featured</option>
+                        <option>Latest</option>
+                        <option>Category</option>
+                        <option>Banner</option>
+                        <option>Newsletter</option>
+                    </select></div>
+                <div class="fg"><label>Linked Category</label><select id="sec-cat-input"></select></div>
+            </div>
+            <div class="form-foot">
+                <button class="btn btn-primary" onclick="addSection()">Add Section</button>
+                <button class="btn btn-ghost" onclick="closeModal('section-modal')">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast"></div>
+    <script src="script.js"></script>
+</body>
+
+</html>

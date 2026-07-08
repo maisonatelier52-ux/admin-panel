@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Latam Chronicle – Articles</title>
+<link rel="stylesheet" href="style.css"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
+</head>
+<body data-page="article">
+<div id="sidebar-root"></div>
+<main class="main">
+  <div id="topbar-root"></div>
+  <div class="content">
+    <div class="page active">
+      <div class="scard">
+        <div class="scard-head"><h2>All Articles</h2><button class="btn btn-primary btn-sm" onclick="openModal('article-modal')">＋ New Article</button></div>
+        <div class="toolbar">
+          <div class="search-wrap"><input type="text" placeholder="Search articles…" oninput="filterNews(this.value)"/></div>
+          <select class="filter-sel" onchange="filterNewsCat(this.value)" id="news-cat-filter"><option value="">All Categories</option></select>
+        </div>
+        <table><thead><tr><th>#</th><th>Title</th><th>Author</th><th>Category</th><th>Date</th><th>Actions</th></tr></thead><tbody id="news-tbody"></tbody></table>
+      </div>
+    </div>
+  </div>
+</main>
+
+<div class="modal-overlay" id="article-modal">
+  <div class="modal">
+    <div class="modal-head"><h3 id="article-modal-title">New Article</h3><button class="modal-close" onclick="closeModal('article-modal')">✕</button></div>
+    <input type="hidden" id="a-edit-id"/>
+    <div class="form-grid">
+      <div class="fg full"><label>Title</label><input type="text" id="a-title" placeholder="Article title…"/></div>
+      <div class="fg"><label>Category</label><select id="a-cat"></select></div>
+      <div class="fg"><label>Author</label><select id="a-author"></select></div>
+      <div class="fg full"><label>Content</label><textarea id="a-content" placeholder="Write your article…"></textarea></div>
+      <div class="fg"><label>Status</label><select id="a-status"><option>Published</option><option>Draft</option></select></div>
+    </div>
+    <div class="form-foot">
+      <button class="btn btn-primary" id="article-save-btn" onclick="saveArticle()">Publish</button>
+      <button class="btn btn-ghost" onclick="closeModal('article-modal')">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+<script src="script.js"></script>
+</body>
+</html>

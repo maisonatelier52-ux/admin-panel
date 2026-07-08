@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Latam Chronicle – Comments</title>
+<link rel="stylesheet" href="style.css"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
+</head>
+<body data-page="comment">
+<div id="sidebar-root"></div>
+<main class="main">
+  <div id="topbar-root"></div>
+  <div class="content">
+    <div class="page active">
+      <div class="page-header">
+        <div><h1>Comments</h1><p>Review and moderate reader comments</p></div>
+      </div>
+      <div class="scard">
+        <div class="scard-head"><h2>Pending Comments <span class="badge" style="background:#ef4444;color:#fff;font-size:0.62rem;padding:2px 7px;border-radius:99px;font-weight:700;margin-left:6px">12</span></h2>
+          <div style="display:flex;gap:6px">
+            <button class="btn btn-sm" style="background:#dcfce7;color:#15803d;border:none;font-weight:700;cursor:pointer" onclick="toast('All approved!')">Approve All</button>
+            <button class="btn btn-sm btn-danger" onclick="toast('All deleted!','#ef4444')">Delete All</button>
+          </div>
+        </div>
+        <div id="comments-list"></div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<div id="toast"></div>
+<script src="script.js"></script>
+</body>
+</html>

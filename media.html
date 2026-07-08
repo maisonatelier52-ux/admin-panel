@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Latam Chronicle – Media Library</title>
+<link rel="stylesheet" href="style.css"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
+</head>
+<body data-page="media">
+<div id="sidebar-root"></div>
+<main class="main">
+  <div id="topbar-root"></div>
+  <div class="content">
+    <div class="page active">
+      <div class="page-header">
+        <div><h1>Media Library</h1><p>Upload and manage images and videos</p></div>
+        <div style="display:flex;gap:8px">
+          <select class="filter-sel"><option>All Files</option><option>Images</option><option>Videos</option></select>
+        </div>
+      </div>
+      <div class="scard">
+        <div class="upload-zone" onclick="toast('File picker would open here')">
+          <i class="fa-solid fa-cloud-arrow-up"></i>
+          <p>Drag & drop files here or</p>
+          <strong>Browse to Upload</strong>
+          <p style="margin-top:6px;font-size:0.72rem">JPG, PNG, GIF, MP4 up to 50MB</p>
+        </div>
+        <div style="padding:0 16px 10px;display:flex;align-items:center;justify-content:space-between">
+          <span style="font-size:0.78rem;color:var(--muted);font-weight:600">12 files · 48MB used</span>
+          <div style="display:flex;gap:6px">
+            <button class="btn btn-ghost btn-sm">Select All</button>
+            <button class="btn btn-danger btn-sm" onclick="toast('Selected deleted!','#ef4444')">Delete Selected</button>
+          </div>
+        </div>
+        <div class="media-full-grid" id="media-full-grid"></div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<div id="toast"></div>
+<script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Latam Chronicle – Static Pages</title>
+<link rel="stylesheet" href="style.css"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
+</head>
+<body data-page="static">
+<div id="sidebar-root"></div>
+<main class="main">
+  <div id="topbar-root"></div>
+  <div class="content">
+    <div class="page active">
+      <div class="page-header">
+        <div><h1>Static Pages</h1><p>Manage About, Contact, Privacy and other pages</p></div>
+        <button class="btn btn-primary" onclick="openModal('static-page-modal')">＋ New Page</button>
+      </div>
+      <div class="scard">
+        <div class="scard-head"><h2>All Pages</h2></div>
+        <div id="static-pages-list"></div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<div class="modal-overlay" id="static-page-modal">
+  <div class="modal">
+    <div class="modal-head"><h3>New Static Page</h3><button class="modal-close" onclick="closeModal('static-page-modal')">✕</button></div>
+    <div class="form-grid">
+      <div class="fg full"><label>Page Title</label><input type="text" id="sp-title-input" placeholder="e.g. About Us"/></div>
+      <div class="fg full"><label>Slug</label><input type="text" id="sp-slug-input" placeholder="/about"/></div>
+      <div class="fg full"><label>Content</label><textarea id="sp-content-input" style="min-height:120px" placeholder="Page content…"></textarea></div>
+      <div class="fg"><label>Status</label><select id="sp-status-input"><option>Published</option><option>Draft</option></select></div>
+    </div>
+    <div class="form-foot">
+      <button class="btn btn-primary" onclick="saveStaticPage()">Save Page</button>
+      <button class="btn btn-ghost" onclick="closeModal('static-page-modal')">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+<script src="script.js"></script>
+</body>
+</html>

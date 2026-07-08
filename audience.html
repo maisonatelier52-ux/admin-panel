@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Latam Chronicle – Audience</title>
+<link rel="stylesheet" href="style.css"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
+</head>
+<body data-page="audience">
+<div id="sidebar-root"></div>
+<main class="main">
+  <div id="topbar-root"></div>
+  <div class="content">
+    <div class="page active">
+      <div class="page-header">
+        <div><h1>Audience</h1><p>Visitor stats by country and device</p></div>
+      </div>
+      <div class="audience-grid">
+        <div class="scard">
+          <div class="scard-head"><h2>Top Countries</h2></div>
+          <div class="country-list" id="country-list"></div>
+        </div>
+        <div>
+          <div class="scard" style="margin-bottom:14px">
+            <div class="scard-head"><h2>Devices</h2></div>
+            <div class="device-list" id="device-list"></div>
+          </div>
+          <div class="scard">
+            <div class="scard-head"><h2>Weekly Visits</h2></div>
+            <div class="mini-chart" id="mini-chart"></div>
+            <div style="display:flex;justify-content:space-between;padding:0 16px 12px;font-size:0.68rem;color:var(--muted)">
+              <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<div id="toast"></div>
+<script src="script.js"></script>
+</body>
+</html>

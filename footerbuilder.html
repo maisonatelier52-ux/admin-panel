@@ -1,0 +1,1584 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>News Admin — Footer Builder</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --sidebar-bg: #14142b;
+            --page-bg: #f3f4f8;
+            --card-bg: #ffffff;
+            --border: #e6e7ee;
+            --text-dark: #1a1a2e;
+            --text-muted: #8a8ba3;
+            --purple: #4f46e5;
+            --purple-dark: #4338ca;
+            --purple-tint: #f2f0fd;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Main */
+        .main {
+           
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+        }
+
+        /* Page head */
+        .page-head {
+             display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+           
+            flex-wrap: wrap;
+            gap: 14px;
+            padding: 20px 22px 0px;
+        }
+
+       .page-head h1{
+      font-size: 1.1rem;
+    font-weight: 800;
+}
+
+        .page-head p {
+            color: var(--text-muted);
+            font-size: 13.5px;
+        }
+
+        .head-actions {
+            display: flex;
+            gap: 10px;
+            flex-shrink: 0;
+        }
+        
+
+        .btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-radius: 8px;
+            padding: 5px 20px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            font-family: inherit;
+            transition: background .15s ease, transform .05s ease;
+        }
+
+        .btn:active {
+            transform: translateY(1px);
+        }
+
+        .btn-outline {
+            background: #fff;
+            border: 1px solid var(--border);
+            color: var(--text-dark);
+        }
+
+        .btn-outline:hover {
+            background: #fafafc;
+        }
+
+        .btn-primary {
+            background: var(--purple);
+            color: #fff;
+            align-items: center;
+        }
+
+        .btn-primary:hover {
+            background: var(--purple-dark);
+        }
+
+        /* Content grid */
+        .content {
+            display: grid;
+            grid-template-columns: 1fr 340px;
+            gap: 20px;
+            align-items: start;
+            overflow-x: hidden;
+        }
+
+        .builder-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            overflow: hidden;
+        }
+
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid var(--border);
+            padding: 0 24px;
+            gap: 28px;
+            overflow-x: auto;
+        }
+
+        .tab {
+            padding: 16px 2px;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text-muted);
+            cursor: pointer;
+            white-space: nowrap;
+            border-bottom: 2px solid transparent;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            user-select: none;
+        }
+
+        .tab i {
+            font-size: 13px;
+            width: 14px;
+            text-align: center;
+        }
+
+        .tab:hover {
+            color: var(--text-dark);
+        }
+
+        .tab.active {
+            color: var(--purple);
+            border-bottom-color: var(--purple);
+        }
+
+        .tab-panel {
+            padding: 26px 24px;
+            display: none;
+        }
+
+        .tab-panel.active {
+            display: block;
+        }
+
+        .tab-panel h3 {
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .tab-panel>p.hint {
+            color: var(--text-muted);
+            font-size: 13.5px;
+            margin-bottom: 20px;
+        }
+
+        /* Layout grid */
+        .layout-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+            margin-bottom: 22px;
+        }
+
+        .layout-option {
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 14px 14px 16px;
+            cursor: pointer;
+            transition: border-color .15s ease, box-shadow .15s ease;
+        }
+
+        .layout-option:hover {
+            border-color: #c9c9f5;
+        }
+
+        .layout-option.selected {
+            border-color: var(--purple);
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+        }
+
+        .preview-box {
+            height: 70px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: #fafafa;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 12px;
+            overflow: hidden;
+        }
+
+        .preview-box.dark-box {
+            background: #14142b;
+            border-color: #14142b;
+        }
+
+        .preview-box.light-box {
+            background: #eceef5;
+        }
+
+        .bar {
+            border-radius: 3px;
+            height: 6px;
+            background: #c7c8d6;
+        }
+
+        .bar.thin {
+            height: 4px;
+        }
+
+        .bar.dot {
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: #c7c8d6;
+        }
+
+        .bar.white {
+            background: #e7e7f5;
+        }
+
+        .bar.muted-dark {
+            background: #aeb0c9;
+        }
+
+        .row-mini {
+            display: flex;
+            gap: 6px;
+            align-items: center;
+        }
+
+        .row-mini.right {
+            justify-content: flex-end;
+        }
+
+        .row-mini.center {
+            justify-content: center;
+        }
+
+        .radio-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .radio-dot {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            border: 2px solid #c9c9d6;
+            flex-shrink: 0;
+            position: relative;
+        }
+
+        .layout-option.selected .radio-dot {
+            border-color: var(--purple);
+        }
+
+        .layout-option.selected .radio-dot::after {
+            content: "";
+            position: absolute;
+            inset: 3px;
+            border-radius: 50%;
+            background: var(--purple);
+        }
+
+        .field-block {
+            margin-bottom: 18px;
+        }
+
+        .field-block:last-child {
+            margin-bottom: 0;
+        }
+
+        .field-block>label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+        }
+
+        .select-input {
+            width: 100%;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 10px 12px;
+            font-size: 14px;
+            font-family: inherit;
+            outline: none;
+            color: var(--text-dark);
+            background: #fff;
+            max-width: 260px;
+        }
+
+        .select-input:focus {
+            border-color: var(--purple);
+        }
+
+        .text-input {
+            width: 100%;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 10px 12px;
+            font-size: 14px;
+            font-family: inherit;
+            outline: none;
+            color: var(--text-dark);
+        }
+
+        .text-input:focus {
+            border-color: var(--purple);
+        }
+
+        /* Toggle */
+        .toggle {
+            width: 40px;
+            height: 20px;
+            background: #d8d9e4;
+            border-radius: 999px;
+            position: relative;
+            cursor: pointer;
+            transition: background .2s ease;
+            flex-shrink: 0;
+        }
+
+        .toggle.on {
+            background: var(--purple);
+        }
+
+        .toggle .knob {
+            position: absolute;
+            top: 1px;
+            left: 3px;
+            width: 18px;
+            height: 18px;
+            background: #fff;
+            border-radius: 50%;
+            transition: left .2s ease;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        .toggle.on .knob {
+            left: 21px;
+        }
+
+        .field-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .field-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .field-row label {
+            font-size: 13px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .field-row label i {
+            color: var(--text-muted);
+            width: 14px;
+            text-align: center;
+        }
+
+        /* Columns tab */
+        .column-block {
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 14px;
+            margin-bottom: 14px;
+            background: #fbfbfd;
+        }
+
+        .column-block-head {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+
+        .column-block-head input.col-title {
+            flex: 1;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 8px 10px;
+            font-size: 14px;
+            font-weight: 700;
+            font-family: inherit;
+            outline: none;
+            color: var(--text-dark);
+            background: #fff;
+        }
+
+        .column-block-head input.col-title:focus {
+            border-color: var(--purple);
+        }
+
+        .col-del-btn {
+            background: none;
+            border: none;
+            color: #e0674f;
+            cursor: pointer;
+            font-size: 14px;
+            padding: 6px 8px;
+            border-radius: 6px;
+        }
+
+        .col-del-btn:hover {
+            background: #fdece8;
+        }
+
+        .link-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .link-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .link-row i.grip {
+            color: #c7c8d6;
+            font-size: 12px;
+            cursor: grab;
+        }
+
+        .link-row input {
+            border: 1px solid var(--border);
+            border-radius: 7px;
+            padding: 7px 9px;
+            font-size: 13.5px;
+            font-family: inherit;
+            outline: none;
+            color: var(--text-dark);
+            background: #fff;
+            flex: 1;
+        }
+
+        .link-row input:focus {
+            border-color: var(--purple);
+        }
+
+        .link-del-btn {
+            background: none;
+            border: none;
+            color: #c7c8d6;
+            cursor: pointer;
+            font-size: 12.5px;
+            padding: 4px 6px;
+        }
+
+        .link-del-btn:hover {
+            color: #e0674f;
+        }
+
+        .add-link-btn {
+            background: none;
+            border: 1px dashed var(--border);
+            border-radius: 7px;
+            color: var(--purple);
+            font-size: 12.5px;
+            font-weight: 600;
+            padding: 6px 10px;
+            cursor: pointer;
+            margin-top: 6px;
+        }
+
+        .add-link-btn:hover {
+            background: var(--purple-tint);
+        }
+
+        .btn-sm {
+            padding: 8px 12px;
+            font-size: 13px;
+        }
+
+        /* Social tab */
+        .social-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 9px 12px;
+            background: #fff;
+        }
+
+        .social-row select {
+            border: none;
+            outline: none;
+            font-size: 13.5px;
+            font-family: inherit;
+            color: var(--text-dark);
+            background: #fafafc;
+            border-radius: 6px;
+            padding: 5px 6px;
+            width: 120px;
+            flex-shrink: 0;
+        }
+
+        .social-row input {
+            border: none;
+            outline: none;
+            flex: 1;
+            font-size: 13.5px;
+            font-family: inherit;
+            color: var(--text-dark);
+        }
+
+        .social-row .del-btn {
+            background: none;
+            border: none;
+            color: #c7c8d6;
+            cursor: pointer;
+            font-size: 13px;
+        }
+
+        .social-row .del-btn:hover {
+            color: #e0674f;
+        }
+
+        /* Style tab colors */
+        .color-fields {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+
+        .color-field label {
+            display: block;
+            font-size: 12.5px;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+        }
+
+        .color-input {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 8px 10px;
+        }
+
+        .color-swatch {
+            width: 16px;
+            height: 16px;
+            border-radius: 3px;
+            border: 1px solid rgba(0, 0, 0, 0.15);
+            flex-shrink: 0;
+            cursor: pointer;
+            padding: 0;
+        }
+
+        .color-input input[type="text"] {
+            border: none;
+            outline: none;
+            font-size: 13px;
+            width: 100%;
+            font-family: inherit;
+            color: var(--text-dark);
+        }
+
+        /* Font tab */
+        .font-sample {
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 22px;
+            text-align: center;
+            margin-bottom: 18px;
+            background: #fafafa;
+        }
+
+        .font-sample .Aa {
+            font-size: 34px;
+            font-weight: 800;
+            margin-bottom: 6px;
+        }
+
+        .font-sample .sample-name {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .size-group {
+            display: flex;
+            gap: 8px;
+            max-width: 340px;
+        }
+
+        .size-btn {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: #fff;
+            cursor: pointer;
+            font-size: 13.5px;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-align: center;
+        }
+
+        .size-btn.active {
+            border-color: var(--purple);
+            color: var(--purple);
+            background: var(--purple-tint);
+        }
+
+        /* Right column */
+        .side-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 24px;
+        }
+
+        .side-card+.side-card {
+            margin-top: 20px;
+        }
+
+        .side-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .side-head h4 {
+            font-size: 13.5px;
+            font-weight: 700;
+        }
+
+        /* Live preview */
+        .preview-frame {
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .footer-preview {
+            padding: 26px 22px 16px;
+            transition: background .2s ease, color .2s ease;
+        }
+
+        .footer-preview.bg-dark {
+            background: #14142b;
+            color: #e4e4f0;
+        }
+
+        .footer-preview.bg-light {
+            background: #eceef5;
+            color: #3a3a52;
+        }
+
+        .footer-preview.bg-brand {
+            background: var(--purple);
+            color: #fff;
+        }
+
+        .footer-cols {
+            display: grid;
+            gap: 18px;
+        }
+
+        .footer-cols.n1 {
+            grid-template-columns: 1fr;
+        }
+
+        .footer-cols.n2 {
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .footer-cols.n3 {
+            grid-template-columns: 1fr 1fr 1fr;
+        }
+
+        .footer-cols.n4 {
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+        }
+
+        .footer-col h5 {
+            font-size: 13.5px;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        .footer-col a {
+            display: block;
+            font-size: 12px;
+            opacity: .82;
+            text-decoration: none;
+            margin-bottom: 6px;
+            color: inherit;
+        }
+
+        .footer-col a:last-child {
+            margin-bottom: 0;
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 10px;
+            margin-top: 16px;
+        }
+
+        .footer-social i {
+            font-size: 13px;
+            opacity: .8;
+        }
+
+        .footer-divider {
+            height: 1px;
+            background: rgba(255, 255, 255, 0.12);
+            margin: 16px 0 10px;
+        }
+
+        .footer-preview.bg-light .footer-divider {
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        .footer-copyright {
+            font-size: 11px;
+            text-align: center;
+            opacity: .65;
+        }
+
+        .footer-preview.compact-mode .footer-cols {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-preview.compact-mode .footer-col {
+            display: none;
+        }
+
+        .footer-preview.compact-mode .footer-brandline {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+        }
+
+        .footer-brandline {
+            display: none;
+        }
+
+        .footer-preview.compact-mode .footer-brandline {
+            display: flex;
+        }
+
+        .footer-preview.compact-mode .footer-divider {
+            display: none;
+        }
+
+        .footer-preview.minimal-mode .footer-col a {
+            display: inline-block;
+            margin-right: 14px;
+        }
+
+        .footer-preview.minimal-mode .footer-cols {
+            grid-template-columns: 1fr;
+        }
+
+        .footer-preview.minimal-mode .footer-col h5 {
+            display: none;
+        }
+
+        .preview-tags {
+            display: flex;
+            gap: 8px;
+            padding: 10px 22px 14px;
+            flex-wrap: wrap;
+        }
+
+        .preview-tag {
+            background: #eef0fb;
+            color: #5a5bb0;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 999px;
+        }
+
+        @media (max-width: 980px) {
+            .content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .layout-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-cols.n2,
+            .footer-cols.n3,
+            .footer-cols.n4 {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body data-page="homepage">
+    <div id="sidebar-root"></div>
+
+
+
+    <main class="main">
+        
+        <div id="topbar-root"></div>
+     <div class="page-head">
+  <div>
+    <h1>Footer Builder</h1>
+    <p>Design and customize your website footer. Changes saved here will reflect live.</p>
+  </div>
+  <div class="head-actions">
+    <button class="btn btn-outline" id="resetBtn">
+      <i class="fa-solid fa-rotate-left"></i>Reset to Default
+    </button>
+    <button class="btn btn-primary" id="saveBtn">
+      <i class="fa-solid fa-floppy-disk"></i>Save Footer
+    </button>
+  </div>
+</div>
+        <div class="content">
+      
+            <!-- Builder card -->
+            <div class="builder-card">
+                <div class="tabs" id="tabs">
+                    <div class="tab active" data-tab="layout"><i class="fa-solid fa-table-cells-large"></i>Layout</div>
+                    <div class="tab" data-tab="columns"><i class="fa-solid fa-table-columns"></i>Columns</div>
+                    <div class="tab" data-tab="style"><i class="fa-solid fa-palette"></i>Style</div>
+                    <div class="tab" data-tab="social"><i class="fa-solid fa-link"></i>Social</div>
+                    <div class="tab" data-tab="font"><i class="fa-solid fa-font"></i>Font</div>
+                    <div class="tab" data-tab="advanced"><i class="fa-solid fa-bolt"></i>Advanced</div>
+                </div>
+
+                <!-- LAYOUT -->
+                <div class="tab-panel active" data-panel="layout">
+                    <h3>Footer Layout</h3>
+                    <p class="hint">Choose a footer layout structure.</p>
+                    <div class="layout-grid" id="layoutGrid">
+
+                        <div class="layout-option selected" data-layout="Classic">
+                            <div class="preview-box">
+                                <div class="row-mini">
+                                    <div class="bar" style="width:55%"></div>
+                                    <div class="bar dot"></div>
+                                    <div class="bar dot"></div>
+                                </div>
+                                <div class="row-mini">
+                                    <div class="bar thin" style="width:22%"></div>
+                                    <div class="bar thin" style="width:22%"></div>
+                                    <div class="bar thin" style="width:22%"></div>
+                                </div>
+                            </div>
+                            <label class="radio-label"><span class="radio-dot"></span>Classic</label>
+                        </div>
+
+                        <div class="layout-option" data-layout="Minimal">
+                            <div class="preview-box dark-box">
+                                <div class="bar white" style="width:60%"></div>
+                                <div class="row-mini">
+                                    <div class="bar white thin" style="width:18%"></div>
+                                    <div class="bar white thin" style="width:18%"></div>
+                                </div>
+                            </div>
+                            <label class="radio-label"><span class="radio-dot"></span>Minimal</label>
+                        </div>
+
+                        <div class="layout-option" data-layout="Columns">
+                            <div class="preview-box">
+                                <div class="row-mini">
+                                    <div class="bar" style="width:16%"></div>
+                                    <div class="bar" style="width:16%"></div>
+                                    <div class="bar" style="width:16%"></div>
+                                    <div class="bar" style="width:16%"></div>
+                                </div>
+                                <div class="row-mini center">
+                                    <div class="bar dot"></div>
+                                    <div class="bar dot"></div>
+                                </div>
+                            </div>
+                            <label class="radio-label"><span class="radio-dot"></span>Columns</label>
+                        </div>
+
+                        <div class="layout-option" data-layout="Compact">
+                            <div class="preview-box">
+                                <div class="row-mini">
+                                    <div class="bar" style="width:45%"></div>
+                                    <div class="bar dot" style="margin-left:auto"></div>
+                                </div>
+                            </div>
+                            <label class="radio-label"><span class="radio-dot"></span>Compact</label>
+                        </div>
+
+                        <div class="layout-option" data-layout="Dark">
+                            <div class="preview-box dark-box">
+                                <div class="bar muted-dark" style="width:50%"></div>
+                                <div class="row-mini center">
+                                    <div class="bar dot"></div>
+                                    <div class="bar dot"></div>
+                                    <div class="bar dot"></div>
+                                </div>
+                            </div>
+                            <label class="radio-label"><span class="radio-dot"></span>Dark</label>
+                        </div>
+
+                        <div class="layout-option" data-layout="Light">
+                            <div class="preview-box light-box">
+                                <div class="bar" style="width:45%;background:#b7b9d2"></div>
+                                <div class="row-mini center">
+                                    <div class="bar dot" style="background:#b7b9d2"></div>
+                                    <div class="bar dot" style="background:#b7b9d2"></div>
+                                </div>
+                            </div>
+                            <label class="radio-label"><span class="radio-dot"></span>Light</label>
+                        </div>
+
+                    </div>
+
+                    <div class="field-block">
+                        <label>Footer background</label>
+                        <select class="select-input" id="layoutBgSelect">
+                            <option value="dark" selected>Dark</option>
+                            <option value="light">Light</option>
+                            <option value="brand">Brand Color</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- COLUMNS -->
+                <div class="tab-panel" data-panel="columns">
+                    <h3>Footer Columns</h3>
+                    <p class="hint">Add, rename, and manage the link columns shown in your footer.</p>
+                    <div id="columnsEditor"></div>
+                    <button class="btn btn-outline btn-sm" id="addColumnBtn"><i class="fa-solid fa-plus"></i>Add
+                        column</button>
+                </div>
+
+                <!-- STYLE -->
+                <div class="tab-panel" data-panel="style">
+                    <h3>Footer Style</h3>
+                    <p class="hint">Control the overall appearance of your footer.</p>
+                    <div class="field-row">
+                        <label><i class="fa-solid fa-copyright"></i>Show copyright</label>
+                        <div class="toggle on" id="copyrightTabToggle">
+                            <div class="knob"></div>
+                        </div>
+                    </div>
+                    <div class="field-row">
+                        <label><i class="fa-solid fa-grip-lines"></i>Divider line</label>
+                        <div class="toggle on" id="dividerTabToggle">
+                            <div class="knob"></div>
+                        </div>
+                    </div>
+                    <div class="field-block" style="margin-top:18px;">
+                        <label>Copyright text</label>
+                        <input type="text" class="text-input" id="copyrightText"
+                            value="© 2026 YourSite. All rights reserved.">
+                    </div>
+                    <div class="field-block">
+                        <label>Colors</label>
+                        <div class="color-fields">
+                            <div class="color-field">
+                                <label>Text color</label>
+                                <div class="color-input">
+                                    <input type="color" class="color-swatch" value="#e4e4f0" data-linked="footerText">
+                                    <input type="text" value="#e4e4f0" id="footerText">
+                                </div>
+                            </div>
+                            <div class="color-field">
+                                <label>Heading color</label>
+                                <div class="color-input">
+                                    <input type="color" class="color-swatch" value="#ffffff"
+                                        data-linked="footerHeading">
+                                    <input type="text" value="#ffffff" id="footerHeading">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SOCIAL -->
+                <div class="tab-panel" data-panel="social">
+                    <h3>Social Icons</h3>
+                    <p class="hint">Show social links in your footer and manage which platforms appear.</p>
+                    <div class="field-row" style="margin-bottom:20px;">
+                        <label><i class="fa-solid fa-share-nodes"></i>Show social icons</label>
+                        <div class="toggle on" id="socialTabToggle">
+                            <div class="knob"></div>
+                        </div>
+                    </div>
+                    <div id="socialEditor"></div>
+                    <button class="btn btn-outline btn-sm" id="addSocialBtn"><i class="fa-solid fa-plus"></i>Add social
+                        link</button>
+                </div>
+
+                <!-- FONT -->
+                <div class="tab-panel" data-panel="font">
+                    <h3>Footer Font</h3>
+                    <p class="hint">Set the typeface and size used for footer headings.</p>
+                    <div class="font-sample">
+                        <div class="Aa" id="fontSampleAa">Aa</div>
+                        <div class="sample-name" id="fontSampleName">System Default</div>
+                    </div>
+                    <div class="field-block">
+                        <label>Typeface</label>
+                        <select class="select-input" id="fontFamilySelect">
+                            <option
+                                value="-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif"
+                                data-label="System Default" selected>System Default</option>
+                            <option value="Georgia,serif" data-label="Georgia (Serif)">Georgia (Serif)</option>
+                            <option value="'Times New Roman',serif" data-label="Times New Roman (Serif)">Times New Roman
+                                (Serif)</option>
+                            <option value="Verdana,sans-serif" data-label="Verdana (Sans)">Verdana (Sans)</option>
+                        </select>
+                    </div>
+                    <div class="field-block">
+                        <label>Heading size</label>
+                        <div class="size-group">
+                            <div class="size-btn" data-size="small">Small</div>
+                            <div class="size-btn active" data-size="medium">Medium</div>
+                            <div class="size-btn" data-size="large">Large</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ADVANCED -->
+                <div class="tab-panel" data-panel="advanced">
+                    <h3>Advanced Settings</h3>
+                    <p class="hint">Fine-tune spacing and behavior.</p>
+                    <div class="field-block">
+                        <label>Top padding</label>
+                        <div class="size-group">
+                            <div class="size-btn" data-pad="compact">Compact</div>
+                            <div class="size-btn active" data-pad="normal">Normal</div>
+                            <div class="size-btn" data-pad="spacious">Spacious</div>
+                        </div>
+                    </div>
+                    <div class="field-row" style="margin-top:18px;">
+                        <label><i class="fa-solid fa-arrow-up"></i>Show "Back to top" button</label>
+                        <div class="toggle" id="backToTopToggle">
+                            <div class="knob"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right sidebar -->
+            <div>
+                <div class="side-card">
+                    <div class="side-head">
+                        <h4>Quick Controls</h4>
+                    </div>
+                    <div class="field-row">
+                        <label>Show copyright</label>
+                        <div class="toggle on" id="copyrightSideToggle">
+                            <div class="knob"></div>
+                        </div>
+                    </div>
+                    <div class="field-row">
+                        <label>Divider line</label>
+                        <div class="toggle on" id="dividerSideToggle">
+                            <div class="knob"></div>
+                        </div>
+                    </div>
+                    <div class="field-row" style="margin-bottom:20px;">
+                        <label>Social icons</label>
+                        <div class="toggle on" id="socialSideToggle">
+                            <div class="knob"></div>
+                        </div>
+                    </div>
+                    <div class="field-block" style="margin-bottom:0;">
+                        <label>Background</label>
+                        <select class="select-input" id="sideBgSelect" style="max-width:100%;">
+                            <option value="dark" selected>Dark</option>
+                            <option value="light">Light</option>
+                            <option value="brand">Brand Color</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="side-card">
+                    <div class="side-head">
+                        <h4>Live Preview</h4>
+                    </div>
+                    <div class="preview-frame">
+                        <div class="footer-preview bg-dark" id="footerPreview">
+                            <div class="footer-brandline">
+                                <span id="compactSiteName" style="font-weight:800;">YourSite</span>
+                                <span id="compactCopyright">© 2026 YourSite. All rights reserved.</span>
+                            </div>
+                            <div class="footer-cols n3" id="footerCols"></div>
+                            <div class="footer-social" id="footerSocial"></div>
+                            <div class="footer-divider" id="footerDivider"></div>
+                            <div class="footer-copyright" id="footerCopyright">© 2026 YourSite. All rights reserved.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="preview-tags" id="previewTags">
+                        <span class="preview-tag" id="tagBg">bg: dark</span>
+                        <span class="preview-tag" id="tagCols">cols: 3</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </main>
+        <script>
+            // ---------------------------------------------------------------------
+            // Central state
+            // ---------------------------------------------------------------------
+            const state = {
+                layout: 'Classic',
+                background: 'dark',
+                columns: [
+                    { title: 'About', links: ['Lorem ipsum dolor sit.', 'Consectetur.'] },
+                    { title: 'Quick Links', links: ['Link one', 'Link two', 'Link three'] },
+                    { title: 'Contact', links: ['email@example.com', '+1 234 5678'] }
+                ],
+                style: {
+                    showCopyright: true,
+                    divider: true,
+                    copyrightText: '© 2026 YourSite. All rights reserved.',
+                    textColor: '#e4e4f0',
+                    headingColor: '#ffffff'
+                },
+                social: {
+                    show: true,
+                    links: [
+                        { platform: 'facebook', url: 'https://facebook.com/yoursite' },
+                        { platform: 'twitter', url: 'https://twitter.com/yoursite' },
+                        { platform: 'instagram', url: 'https://instagram.com/yoursite' }
+                    ]
+                },
+                font: {
+                    family: "-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif",
+                    label: 'System Default',
+                    size: 'medium'
+                },
+                advanced: { padding: 'normal', backToTop: false }
+            };
+
+            const DEFAULT_STATE = JSON.parse(JSON.stringify(state));
+
+            const SOCIAL_ICONS = {
+                facebook: 'fa-brands fa-facebook',
+                twitter: 'fa-brands fa-x-twitter',
+                instagram: 'fa-brands fa-instagram',
+                youtube: 'fa-brands fa-youtube',
+                linkedin: 'fa-brands fa-linkedin',
+                tiktok: 'fa-brands fa-tiktok'
+            };
+            const FONT_SIZES = { small: '12.5px', medium: '13.5px', large: '15.5px' };
+            const PADDING_MAP = { compact: '16px 22px 10px', normal: '26px 22px 16px', spacious: '40px 22px 22px' };
+
+            const $ = id => document.getElementById(id);
+
+            // ---------------------------------------------------------------------
+            // Tabs
+            // ---------------------------------------------------------------------
+            const tabs = document.querySelectorAll('.tab');
+            const panels = document.querySelectorAll('.tab-panel');
+            function activateTab(name) {
+                tabs.forEach(t => t.classList.toggle('active', t.dataset.tab === name));
+                panels.forEach(p => p.classList.toggle('active', p.dataset.panel === name));
+            }
+            tabs.forEach(tab => tab.addEventListener('click', () => activateTab(tab.dataset.tab)));
+
+            // ---------------------------------------------------------------------
+            // Layout selection
+            // ---------------------------------------------------------------------
+            const layoutOptions = document.querySelectorAll('.layout-option');
+            layoutOptions.forEach(opt => {
+                opt.addEventListener('click', () => {
+                    layoutOptions.forEach(o => o.classList.remove('selected'));
+                    opt.classList.add('selected');
+                    state.layout = opt.dataset.layout;
+                    renderPreview();
+                });
+            });
+
+            // ---------------------------------------------------------------------
+            // Background (Layout tab select + Quick Controls select, kept in sync)
+            // ---------------------------------------------------------------------
+            function setBackground(val) {
+                state.background = val;
+                $('layoutBgSelect').value = val;
+                $('sideBgSelect').value = val;
+                renderPreview();
+            }
+            $('layoutBgSelect').addEventListener('change', e => setBackground(e.target.value));
+            $('sideBgSelect').addEventListener('change', e => setBackground(e.target.value));
+
+            // ---------------------------------------------------------------------
+            // Columns editor
+            // ---------------------------------------------------------------------
+            const columnsEditor = $('columnsEditor');
+
+            function renderColumnsEditor() {
+                columnsEditor.innerHTML = '';
+                state.columns.forEach((col, ci) => {
+                    const block = document.createElement('div');
+                    block.className = 'column-block';
+                    block.innerHTML = `
+        <div class="column-block-head">
+          <input type="text" class="col-title" data-ci="${ci}" value="${col.title}">
+          <button class="col-del-btn" data-ci="${ci}" title="Delete column"><i class="fa-solid fa-trash-can"></i></button>
+        </div>
+        <div class="links-list" data-ci="${ci}">
+          ${col.links.map((link, li) => `
+            <div class="link-row">
+              <i class="fa-solid fa-grip-vertical grip"></i>
+              <input type="text" data-ci="${ci}" data-li="${li}" value="${link}">
+              <button class="link-del-btn" data-ci="${ci}" data-li="${li}"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+          `).join('')}
+        </div>
+        <button class="add-link-btn" data-ci="${ci}"><i class="fa-solid fa-plus"></i> Add link</button>
+      `;
+                    columnsEditor.appendChild(block);
+                });
+
+                columnsEditor.querySelectorAll('.col-title').forEach(inp => {
+                    inp.addEventListener('input', () => {
+                        state.columns[+inp.dataset.ci].title = inp.value;
+                        renderPreview();
+                    });
+                });
+                columnsEditor.querySelectorAll('.col-del-btn').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        state.columns.splice(+btn.dataset.ci, 1);
+                        renderColumnsEditor();
+                        renderPreview();
+                    });
+                });
+                columnsEditor.querySelectorAll('.links-list input').forEach(inp => {
+                    inp.addEventListener('input', () => {
+                        state.columns[+inp.dataset.ci].links[+inp.dataset.li] = inp.value;
+                        renderPreview();
+                    });
+                });
+                columnsEditor.querySelectorAll('.link-del-btn').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        state.columns[+btn.dataset.ci].links.splice(+btn.dataset.li, 1);
+                        renderColumnsEditor();
+                        renderPreview();
+                    });
+                });
+                columnsEditor.querySelectorAll('.add-link-btn').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        state.columns[+btn.dataset.ci].links.push('New link');
+                        renderColumnsEditor();
+                        renderPreview();
+                    });
+                });
+            }
+
+            $('addColumnBtn').addEventListener('click', () => {
+                state.columns.push({ title: 'New Column', links: ['New link'] });
+                renderColumnsEditor();
+                renderPreview();
+            });
+
+            // ---------------------------------------------------------------------
+            // Style tab (copyright / divider, synced with Quick Controls)
+            // ---------------------------------------------------------------------
+            function setCopyright(val) {
+                state.style.showCopyright = val;
+                $('copyrightTabToggle').classList.toggle('on', val);
+                $('copyrightSideToggle').classList.toggle('on', val);
+                renderPreview();
+            }
+            $('copyrightTabToggle').addEventListener('click', () => setCopyright(!state.style.showCopyright));
+            $('copyrightSideToggle').addEventListener('click', () => setCopyright(!state.style.showCopyright));
+
+            function setDivider(val) {
+                state.style.divider = val;
+                $('dividerTabToggle').classList.toggle('on', val);
+                $('dividerSideToggle').classList.toggle('on', val);
+                renderPreview();
+            }
+            $('dividerTabToggle').addEventListener('click', () => setDivider(!state.style.divider));
+            $('dividerSideToggle').addEventListener('click', () => setDivider(!state.style.divider));
+
+            $('copyrightText').addEventListener('input', e => {
+                state.style.copyrightText = e.target.value;
+                renderPreview();
+            });
+
+            function linkColorPair(swatchId, textId, onChange) {
+                const swatch = document.querySelector(`.color-swatch[data-linked="${swatchId}"]`);
+                const text = $(textId);
+                swatch.addEventListener('input', () => { text.value = swatch.value; onChange(swatch.value); });
+                text.addEventListener('input', () => {
+                    if (/^#([0-9a-f]{3}|[0-9a-f]{6})$/i.test(text.value)) { swatch.value = text.value; onChange(text.value); }
+                });
+            }
+            linkColorPair('footerText', 'footerText', v => { state.style.textColor = v; renderPreview(); });
+            linkColorPair('footerHeading', 'footerHeading', v => { state.style.headingColor = v; renderPreview(); });
+
+            // ---------------------------------------------------------------------
+            // Social tab (toggle synced with Quick Controls)
+            // ---------------------------------------------------------------------
+            function setSocialShow(val) {
+                state.social.show = val;
+                $('socialTabToggle').classList.toggle('on', val);
+                $('socialSideToggle').classList.toggle('on', val);
+                renderPreview();
+            }
+            $('socialTabToggle').addEventListener('click', () => setSocialShow(!state.social.show));
+            $('socialSideToggle').addEventListener('click', () => setSocialShow(!state.social.show));
+
+            const socialEditor = $('socialEditor');
+            function renderSocialEditor() {
+                socialEditor.innerHTML = '';
+                state.social.links.forEach((link, i) => {
+                    const row = document.createElement('div');
+                    row.className = 'social-row';
+                    row.innerHTML = `
+        <select data-i="${i}">
+          ${Object.keys(SOCIAL_ICONS).map(p => `<option value="${p}" ${p === link.platform ? 'selected' : ''}>${p[0].toUpperCase() + p.slice(1)}</option>`).join('')}
+        </select>
+        <input type="text" data-i="${i}" value="${link.url}" placeholder="https://...">
+        <button class="del-btn" data-i="${i}"><i class="fa-solid fa-trash-can"></i></button>
+      `;
+                    socialEditor.appendChild(row);
+                });
+                socialEditor.querySelectorAll('select').forEach(sel => {
+                    sel.addEventListener('change', () => {
+                        state.social.links[+sel.dataset.i].platform = sel.value;
+                        renderPreview();
+                    });
+                });
+                socialEditor.querySelectorAll('.social-row input').forEach(inp => {
+                    inp.addEventListener('input', () => {
+                        state.social.links[+inp.dataset.i].url = inp.value;
+                    });
+                });
+                socialEditor.querySelectorAll('.del-btn').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        state.social.links.splice(+btn.dataset.i, 1);
+                        renderSocialEditor();
+                        renderPreview();
+                    });
+                });
+            }
+            $('addSocialBtn').addEventListener('click', () => {
+                state.social.links.push({ platform: 'facebook', url: '' });
+                renderSocialEditor();
+                renderPreview();
+            });
+
+            // ---------------------------------------------------------------------
+            // Font tab
+            // ---------------------------------------------------------------------
+            $('fontFamilySelect').addEventListener('change', e => {
+                const opt = e.target.selectedOptions[0];
+                state.font.family = opt.value;
+                state.font.label = opt.dataset.label;
+                renderPreview();
+            });
+            document.querySelectorAll('.size-btn[data-size]').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.size-btn[data-size]').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    state.font.size = btn.dataset.size;
+                    renderPreview();
+                });
+            });
+
+            // ---------------------------------------------------------------------
+            // Advanced tab
+            // ---------------------------------------------------------------------
+            document.querySelectorAll('.size-btn[data-pad]').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.size-btn[data-pad]').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    state.advanced.padding = btn.dataset.pad;
+                    renderPreview();
+                });
+            });
+            $('backToTopToggle').addEventListener('click', () => {
+                state.advanced.backToTop = !state.advanced.backToTop;
+                $('backToTopToggle').classList.toggle('on', state.advanced.backToTop);
+            });
+
+            // ---------------------------------------------------------------------
+            // Master preview renderer
+            // ---------------------------------------------------------------------
+            const LAYOUT_MODE_CLASS = {
+                'Classic': '', 'Minimal': 'minimal-mode', 'Columns': '',
+                'Compact': 'compact-mode', 'Dark': '', 'Light': ''
+            };
+
+            function colCountClass(n) {
+                if (n <= 1) return 'n1';
+                if (n === 2) return 'n2';
+                if (n === 3) return 'n3';
+                return 'n4';
+            }
+
+            function renderPreview() {
+                const footer = $('footerPreview');
+
+                // background
+                footer.classList.remove('bg-dark', 'bg-light', 'bg-brand');
+                let bg = state.background;
+                if (state.layout === 'Dark') bg = 'dark';
+                if (state.layout === 'Light') bg = 'light';
+                footer.classList.add('bg-' + bg);
+
+                // layout mode
+                Object.values(LAYOUT_MODE_CLASS).forEach(c => { if (c) footer.classList.remove(c); });
+                const modeClass = LAYOUT_MODE_CLASS[state.layout];
+                if (modeClass) footer.classList.add(modeClass);
+
+                // padding
+                footer.style.padding = PADDING_MAP[state.advanced.padding];
+
+                // colors
+                footer.style.color = state.style.textColor;
+
+                // columns
+                const colsWrap = $('footerCols');
+                colsWrap.className = 'footer-cols ' + colCountClass(state.columns.length);
+                colsWrap.innerHTML = state.columns.map(col => `
+      <div class="footer-col">
+        <h5 style="color:${state.style.headingColor};font-family:${state.font.family};font-size:${FONT_SIZES[state.font.size]};">${col.title}</h5>
+        ${col.links.map(l => `<a href="#">${l}</a>`).join('')}
+      </div>
+    `).join('');
+
+                // compact brandline
+                $('compactSiteName').style.fontFamily = state.font.family;
+                $('compactCopyright').textContent = state.style.copyrightText;
+
+                // social
+                const socialWrap = $('footerSocial');
+                if (state.social.show && state.social.links.length) {
+                    socialWrap.style.display = 'flex';
+                    socialWrap.innerHTML = state.social.links.map(l => `<i class="${SOCIAL_ICONS[l.platform] || 'fa-solid fa-link'}"></i>`).join('');
+                } else {
+                    socialWrap.style.display = 'none';
+                    socialWrap.innerHTML = '';
+                }
+
+                // divider
+                $('footerDivider').style.display = state.style.divider ? 'block' : 'none';
+
+                // copyright
+                $('footerCopyright').style.display = state.style.showCopyright ? 'block' : 'none';
+                $('footerCopyright').textContent = state.style.copyrightText;
+
+                // tags
+                $('tagBg').textContent = 'bg: ' + bg;
+                $('tagCols').textContent = 'cols: ' + state.columns.length;
+            }
+
+            // ---------------------------------------------------------------------
+            // Save / Reset
+            // ---------------------------------------------------------------------
+            $('saveBtn').addEventListener('click', () => {
+                const btn = $('saveBtn');
+                const original = btn.innerHTML;
+                btn.innerHTML = '<i class="fa-solid fa-check"></i>Saved!';
+                setTimeout(() => btn.innerHTML = original, 1400);
+            });
+
+            $('resetBtn').addEventListener('click', () => {
+                Object.assign(state, JSON.parse(JSON.stringify(DEFAULT_STATE)));
+
+                layoutOptions.forEach(o => o.classList.toggle('selected', o.dataset.layout === state.layout));
+                setBackground(state.background);
+
+                renderColumnsEditor();
+
+                $('copyrightTabToggle').classList.toggle('on', state.style.showCopyright);
+                $('copyrightSideToggle').classList.toggle('on', state.style.showCopyright);
+                $('dividerTabToggle').classList.toggle('on', state.style.divider);
+                $('dividerSideToggle').classList.toggle('on', state.style.divider);
+                $('copyrightText').value = state.style.copyrightText;
+                syncColor('footerText', state.style.textColor);
+                syncColor('footerHeading', state.style.headingColor);
+
+                $('socialTabToggle').classList.toggle('on', state.social.show);
+                $('socialSideToggle').classList.toggle('on', state.social.show);
+                renderSocialEditor();
+
+                $('fontFamilySelect').value = state.font.family;
+                $('fontSampleAa').style.fontFamily = state.font.family;
+                $('fontSampleName').textContent = state.font.label;
+                document.querySelectorAll('.size-btn[data-size]').forEach(b => b.classList.toggle('active', b.dataset.size === state.font.size));
+
+                document.querySelectorAll('.size-btn[data-pad]').forEach(b => b.classList.toggle('active', b.dataset.pad === state.advanced.padding));
+                $('backToTopToggle').classList.toggle('on', state.advanced.backToTop);
+
+                activateTab('layout');
+                renderPreview();
+            });
+
+            function syncColor(id, value) {
+                $(id).value = value;
+                const swatch = document.querySelector(`.color-swatch[data-linked="${id}"]`);
+                if (swatch) swatch.value = value;
+            }
+
+            // ---------------------------------------------------------------------
+            // Initial render
+            // ---------------------------------------------------------------------
+            renderColumnsEditor();
+            renderSocialEditor();
+            renderPreview();
+        </script>
+        <div class="modal-overlay" id="section-modal">
+            <div class="modal">
+                <div class="modal-head">
+                    <h3>Add Homepage Section</h3><button class="modal-close"
+                        onclick="closeModal('section-modal')">✕</button>
+                </div>
+                <div class="form-grid">
+                    <div class="fg full"><label>Section Name</label><input type="text" id="sec-name-input"
+                            placeholder="e.g. Featured News" /></div>
+                    <div class="fg"><label>Section Type</label><select id="sec-type-input">
+                            <option>Featured</option>
+                            <option>Latest</option>
+                            <option>Category</option>
+                            <option>Banner</option>
+                            <option>Newsletter</option>
+                        </select></div>
+                    <div class="fg"><label>Linked Category</label><select id="sec-cat-input"></select></div>
+                </div>
+                <div class="form-foot">
+                    <button class="btn btn-primary" onclick="addSection()">Add Section</button>
+                    <button class="btn btn-ghost" onclick="closeModal('section-modal')">Cancel</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="toast"></div>
+        <script src="script.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Latam Chronicle – Authors</title>
+<link rel="stylesheet" href="style.css"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
+</head>
+<body data-page="authors">
+<div id="sidebar-root"></div>
+<main class="main">
+  <div id="topbar-root"></div>
+  <div class="content">
+    <div class="page active">
+      <div class="scard">
+        <div class="scard-head"><h2>Authors</h2><button class="btn btn-primary btn-sm" onclick="openModal('author-modal')">＋ New Author</button></div>
+        <table><thead><tr><th>Name</th><th>Email</th><th>Articles</th><th>Actions</th></tr></thead><tbody id="author-tbody"></tbody></table>
+      </div>
+    </div>
+  </div>
+</main>
+
+<div class="modal-overlay" id="author-modal">
+  <div class="modal">
+    <div class="modal-head"><h3>Add Author</h3><button class="modal-close" onclick="closeModal('author-modal')">✕</button></div>
+    <div class="form-grid">
+      <div class="fg"><label>Name</label><input type="text" id="author-name-input" placeholder="Full name"/></div>
+      <div class="fg"><label>Email</label><input type="email" id="author-email-input" placeholder="email@example.com"/></div>
+    </div>
+    <div class="form-foot">
+      <button class="btn btn-primary" onclick="addAuthor()">Add Author</button>
+      <button class="btn btn-ghost" onclick="closeModal('author-modal')">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+<script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Latam Chronicle – Social Media</title>
+<link rel="stylesheet" href="style.css"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
+</head>
+<body data-page="social">
+<div id="sidebar-root"></div>
+<main class="main">
+  <div id="topbar-root"></div>
+  <div class="content">
+    <div class="page active">
+      <div class="page-header">
+        <div><h1>Social Media</h1><p>Manage your connected social accounts</p></div>
+        <button class="btn btn-primary" onclick="openModal('social-modal')">＋ Connect Account</button>
+      </div>
+      <div class="scard">
+        <div class="scard-head"><h2>Connected Accounts</h2></div>
+        <div class="social-grid" id="social-grid"></div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<div class="modal-overlay" id="social-modal">
+  <div class="modal">
+    <div class="modal-head"><h3>Connect Social Account</h3><button class="modal-close" onclick="closeModal('social-modal')">✕</button></div>
+    <div class="form-grid">
+      <div class="fg"><label>Platform</label><select id="soc-platform"><option>Twitter/X</option><option>Facebook</option><option>Instagram</option><option>YouTube</option><option>TikTok</option></select></div>
+      <div class="fg"><label>Handle / Username</label><input type="text" id="soc-handle" placeholder="@yourhandle"/></div>
+      <div class="fg full"><label>Profile URL</label><input type="text" id="soc-url" placeholder="https://twitter.com/…"/></div>
+    </div>
+    <div class="form-foot">
+      <button class="btn btn-primary" onclick="saveSocial()">Connect</button>
+      <button class="btn btn-ghost" onclick="closeModal('social-modal')">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+<script src="script.js"></script>
+</body>
+</html>
