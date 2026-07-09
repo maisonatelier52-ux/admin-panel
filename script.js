@@ -211,11 +211,7 @@ function buildSidebar(){
       </a>
     </div>
 
-    <div class="nav-section">
-      <div class="nav-label">Manage</div>
-      <a class="nav-item"><i class="fa-solid fa-users"></i><span>Users</span></a>
-      <a class="nav-item"><i class="fa-solid fa-gear"></i><span>Settings</span></a>
-    </div>
+ <br>
 
     <div class="sidebar-footer">
       <div class="sidebar-user">
